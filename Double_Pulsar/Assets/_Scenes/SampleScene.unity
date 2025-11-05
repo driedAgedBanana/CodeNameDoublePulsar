@@ -228,16 +228,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   rb2D: {fileID: 0}
-  moveSpeed: 5
-  jumpForce: 4
+  playerAnimation: {fileID: 0}
+  moveSpeed: 3
+  jumpForce: 3
   groundCheckPosition: {fileID: 1391855759}
   groundCheckSize: {x: 0.37, y: 0.01}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  standardGravity: 0.3
-  maxFallSpeed: 4
-  fallSpeedMultiplier: 3
+  standardGravity: 0.2
+  maxFallSpeed: 2
+  fallSpeedMultiplier: 1.5
 --- !u!114 &307214361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,7 +407,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.68, y: 0.93}
+    oldSize: {x: 0.66, y: 0.92}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

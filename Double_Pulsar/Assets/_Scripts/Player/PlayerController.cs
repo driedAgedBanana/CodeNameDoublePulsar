@@ -50,6 +50,14 @@ public class PlayerController : MonoBehaviour
     {
         HandleMoving();
         HandleGravity();
+
+        playerAnimation.SetBool("isJumping", !IsGrounded());
+    }
+
+    private void FixedUpdate()
+    {
+        playerAnimation.SetFloat("xVelocity", Mathf.Abs(_horizontalMovement));
+        // playerAnimation.SetFloat("yVelocity", Mathf.Abs(rb2D.linearVelocity.y));
     }
 
     private void HandleGravity()
@@ -114,19 +122,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext ctx)
     {
-        if (IsGrounded())
-        { 
-            if (ctx.performed)
-            {
-                // Hold down space for a full height
-                rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, jumpForce);
-            }
-            else if (ctx.canceled)
-            {
-                // Light tap for half the height
-                rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, rb2D.linearVelocity.y * 0.5f);
-            }
-
+        if (ctx.performed && IsGrounded())
+        {
+            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, jumpForce);
+        }
+        else if (ctx.canceled && rb2D.linearVelocity.y > 0)
+        {
+            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, rb2D.linearVelocity.y * 0.5f);
         }
     }
 

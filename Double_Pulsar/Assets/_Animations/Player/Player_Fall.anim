@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_Jump
+  m_Name: Player_Fall
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,7 +21,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -3324982837959096817, guid: 51d0779d03fcbd945a6e300ee3dfae79, type: 3}
+      value: {fileID: -8207715168139484826, guid: a9eb0492e8bc48f4f99f01c9eb237b72, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,7 +44,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -3324982837959096817, guid: 51d0779d03fcbd945a6e300ee3dfae79, type: 3}
+    - {fileID: -8207715168139484826, guid: a9eb0492e8bc48f4f99f01c9eb237b72, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
