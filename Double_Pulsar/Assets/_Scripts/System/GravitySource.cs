@@ -11,11 +11,12 @@ public class GravitySource : MonoBehaviour
     private void Start()
     {
         gravityCollider = GetComponent<CircleCollider2D>();
+        gravityCollider.radius = gravityRange / transform.lossyScale.x;
     }
 
     private void Update()
     {
-        gravityCollider.radius = gravityRange;
+        gravityCollider.radius = gravityRange / transform.lossyScale.x;
     }
 
     private void OnDrawGizmosSelected()
