@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
 
     public Rigidbody2D rb2D;
+    public GravitySource currentGravitySource;
 
     [Header("Animations")]
     public Animator playerAnimation;
@@ -62,7 +63,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleGravity()
     {
-        if(rb2D.linearVelocity.y < 0)
+        if (rb2D.linearVelocity.y < 0)
         {
             rb2D.gravityScale = standardGravity * fallSpeedMultiplier; // Fall increasingly faster
             rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, Mathf.Max(rb2D.linearVelocity.y, -maxFallSpeed)); // Cap the fall speed
@@ -73,9 +74,39 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<GravitySource>(out GravitySource gravitySource))
+        {
+            currentGravitySource = gravitySource;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out GravitySource gravitySource) && gravitySource == currentGravitySource)
+        {
+            currentGravitySource = null;
+        }
+
+        return;
+    }
+
     public void HandleMoving()
     {
-        rb2D.linearVelocity = new Vector2(_horizontalMovement * moveSpeed, rb2D.linearVelocity.y);
+        if (currentGravitySource != null)
+        {
+            // Direction towards the center of asteroid
+            Vector2 gravityDirection = ((Vector2)currentGravitySource.transform.position - rb2D.position).normalized;
+
+            // Tangent movement along surface
+            Vector2 tangent = Vector2.Perpendicular(gravityDirection) * _horizontalMovement * moveSpeed;
+            rb2D.AddForce(tangent);
+        }
+        else
+        {
+            rb2D.linearVelocity = new Vector2(_horizontalMovement * moveSpeed, rb2D.linearVelocity.y);
+        }
     }
 
     private void Flip()
@@ -110,11 +141,11 @@ public class PlayerController : MonoBehaviour
     {
         _horizontalMovement = ctx.ReadValue<Vector2>().x;
 
-        if(_horizontalMovement > 0 && !_isFacingRight)
+        if (_horizontalMovement > 0 && !_isFacingRight)
         {
             Flip();
         }
-        else if(_horizontalMovement < 0 &&  _isFacingRight)
+        else if (_horizontalMovement < 0 && _isFacingRight)
         {
             Flip();
         }
@@ -124,7 +155,7 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.performed && IsGrounded())
         {
-            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, jumpForce);
+            rb2D.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
         }
         else if (ctx.canceled && rb2D.linearVelocity.y > 0)
         {
