@@ -5,6 +5,8 @@
 - First level that contains low gravity
 - Feedback and playtest from other people's
 - Level design using tiles
+- Jetpack flying kit
+- Dashing function
 
 ## Should Have:
 - A simple lore
@@ -12,6 +14,7 @@
 - Level with dark enviroment
 - Functional menu
 - Basic tutorial level (optional, remember 'Show, don't tell rule)
+- Double jump kit for second / third level
 
 ## Could Have:
 - Basic / advanced inventory system
