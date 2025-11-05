@@ -1,0 +1,24 @@
+## Must Have:
+- A playable prototype
+- Controlable player
+- Animations for players and other mechanics that requires animations
+- First level that contains low gravity
+- Feedback and playtest from other people's
+- Level design using tiles
+
+## Should Have:
+- A simple lore
+- The rest of the levels
+- Level with dark enviroment
+- Functional menu
+- Basic tutorial level (optional, remember 'Show, don't tell rule)
+
+## Could Have:
+- Basic / advanced inventory system
+- Multiple pathways to reach the end destination
+- Lore system
+- Shaders
+- Save system
+
+# Won't Have:
+- Co-op
