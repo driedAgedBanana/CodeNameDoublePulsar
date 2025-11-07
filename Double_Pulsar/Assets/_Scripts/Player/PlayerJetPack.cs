@@ -1,74 +1,81 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerJetPack : MonoBehaviour
 {
-    public Rigidbody2D rb2D;
+    public static PlayerJetPack Instance;
 
-    [Header("JetPack Settings")]
-    public float jetpackForce = 5f;
-    public float rotationSpeed = 5f;
-    public float maxTiltAngle = 30f; // how much to tilt left/right
+    [Header("Jetpack Settings")]
+    public float thrustForce = 8f;
+    public float rotationSpeed = 180f; // degrees per second
+    public float maxVelocity = 10f;
     public TrailRenderer jetpackTrail;
 
-    private bool isJetPacking = false;
+    private Rigidbody2D rb2D;
     private Vector2 moveInput;
+    [HideInInspector] public bool isJetPacking = false;
 
     private void Awake()
     {
-        if (rb2D == null)
+        if(Instance != null && Instance != this)
         {
-            rb2D = GetComponent<Rigidbody2D>();
+            Destroy(gameObject);
         }
+        else
+        {
+            Instance = this;
+        }
+
+        rb2D = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
     {
-        jetpackTrail = GetComponentInChildren<TrailRenderer>();
+        if (jetpackTrail == null)
+            jetpackTrail = GetComponentInChildren<TrailRenderer>();
+
         if (jetpackTrail != null)
             jetpackTrail.gameObject.SetActive(false);
     }
 
     private void FixedUpdate()
     {
-        ControlJetPack();
+        HandleRotation();
+        HandleThrust();
+        LimitVelocity();
     }
 
-    public void ControlJetPack()
+    private void HandleRotation()
     {
-        if (!isJetPacking)
-            return;
-
-        // Apply force based on full input (vertical + horizontal)
-        if (moveInput != Vector2.zero)
+        float rotationInput = -moveInput.x; // right arrow -> negative rotation
+        if (Mathf.Abs(rotationInput) > 0.01f)
         {
-            rb2D.AddForce(moveInput.normalized * jetpackForce, ForceMode2D.Force);
+            rb2D.MoveRotation(rb2D.rotation + rotationInput * rotationSpeed * Time.fixedDeltaTime);
         }
-
-        // Handle rotation based on horizontal input
-        float targetAngle = 0f;
-
-        if (moveInput.x > 0.01f)
-        {
-            targetAngle = -maxTiltAngle; // Tilt right
-        }
-        else if (moveInput.x < -0.01f)
-        {
-            targetAngle = maxTiltAngle; // Tilt left
-        }
-
-        // Smoothly rotate towards target angle
-        rb2D.MoveRotation(Mathf.LerpAngle(rb2D.rotation, targetAngle, rotationSpeed * Time.fixedDeltaTime));
     }
 
-    // Calling input system
+    private void HandleThrust()
+    {
+        if (isJetPacking && moveInput.y > 0.1f)
+        {
+            rb2D.AddForce(transform.up * thrustForce, ForceMode2D.Force);
+        }
+    }
+
+    private void LimitVelocity()
+    {
+        if (rb2D.linearVelocity.magnitude > maxVelocity)
+            rb2D.linearVelocity = rb2D.linearVelocity.normalized * maxVelocity;
+    }
+
+    // Input System: Toggle Jetpack on/off
     public void OnToggleJetPack(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
         {
             isJetPacking = !isJetPacking;
-
-            if (isJetPacking)
+            if(isJetPacking)
             {
                 jetpackTrail.gameObject.SetActive(true);
             }
@@ -77,10 +84,11 @@ public class PlayerJetPack : MonoBehaviour
                 jetpackTrail.gameObject.SetActive(false);
             }
 
-            Debug.Log("Jetpack: " + (isJetPacking ? "Activated" : "Deactivated"));
+            Debug.Log($"Jetpack: {(isJetPacking ? "Activated" : "Deactivated")}");
         }
     }
 
+    // Input System: Movement (x = rotation, y = thrust)
     public void OnMove(InputAction.CallbackContext ctx)
     {
         moveInput = ctx.ReadValue<Vector2>();

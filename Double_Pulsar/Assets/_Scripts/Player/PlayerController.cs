@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public float standardGravity = 0.165f;
     public float maxFallSpeed = -6f;
     public float fallSpeedMultiplier = 6f;
+    private float _currentStandardGravity;
 
     private void Awake()
     {
@@ -45,10 +46,21 @@ public class PlayerController : MonoBehaviour
     {
         rb2D = GetComponent<Rigidbody2D>();
         playerAnimation = GetComponent<Animator>();
+
+        _currentStandardGravity = standardGravity;
     }
 
     private void Update()
     {
+        if (PlayerJetPack.Instance != null && PlayerJetPack.Instance.isJetPacking)
+        {
+            _currentStandardGravity = -0.01f;
+        }
+        else
+        {
+            _currentStandardGravity = standardGravity;
+        }
+
         HandleMoving();
         HandleGravity();
 
@@ -65,12 +77,12 @@ public class PlayerController : MonoBehaviour
     {
         if (rb2D.linearVelocity.y < 0)
         {
-            rb2D.gravityScale = standardGravity * fallSpeedMultiplier; // Fall increasingly faster
+            rb2D.gravityScale = _currentStandardGravity * fallSpeedMultiplier; // Fall increasingly faster
             rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, Mathf.Max(rb2D.linearVelocity.y, -maxFallSpeed)); // Cap the fall speed
         }
         else
         {
-            rb2D.gravityScale = standardGravity;
+            rb2D.gravityScale = _currentStandardGravity;
         }
     }
 

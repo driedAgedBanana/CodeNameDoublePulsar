@@ -4,6 +4,8 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerGravity : MonoBehaviour
 {
+    public static PlayerGravity Instance;
+
     public GravitySource currentGravitySource;
     public float rotationSpeed = 5f;
 
@@ -12,6 +14,15 @@ public class PlayerGravity : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         _rb2D = GetComponent<Rigidbody2D>();
         _rb2D.gravityScale = 0f; // disable default gravity
     }
