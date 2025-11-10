@@ -15,6 +15,8 @@ public class PlayerDash : MonoBehaviour
     [HideInInspector] public bool canDash;
     [HideInInspector] public bool isDashing;
 
+    public float dashEnergyDrainRate = 3.5f;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -36,27 +38,35 @@ public class PlayerDash : MonoBehaviour
 
     private IEnumerator StartDash()
     {
-        canDash = false;
-        isDashing = true;
-        float originalGravity = rb2D.gravityScale;
-        rb2D.gravityScale = 0f;
+        if(JetPackEnergy.Instance.currentEnergy >= 0)
+        {
+            canDash = false;
+            isDashing = true;
+            float originalGravity = rb2D.gravityScale;
+            rb2D.gravityScale = 0f;
 
-        rb2D.linearVelocity = new Vector2(transform.localScale.x * dashForce, 0f);
-        dashTrail.emitting = true;
+            rb2D.linearVelocity = new Vector2(transform.localScale.x * dashForce, 0f);
+            JetPackEnergy.Instance.DrainEnergy(dashEnergyDrainRate);
+            dashTrail.emitting = true;
 
-        yield return new WaitForSeconds(dashDuration);
+            yield return new WaitForSeconds(dashDuration);
 
-        dashTrail.emitting = false;
-        rb2D.gravityScale = originalGravity;
-        isDashing = false;
-        yield return new WaitForSeconds(dashCooldown);
-        canDash = true;
+            dashTrail.emitting = false;
+            rb2D.gravityScale = originalGravity;
+            isDashing = false;
+            yield return new WaitForSeconds(dashCooldown);
+            canDash = true;
+        }
+        else
+        {
+            yield break;
+        }
 
     }
 
     public void OnDash(InputAction.CallbackContext ctx)
     {
-        if(ctx.performed && canDash)
+        if(ctx.performed && canDash && !JetPackEnergy.Instance.isEnergyEmpty)
         {
             StartCoroutine(StartDash());
         }

@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jumping")]
     public float jumpForce;
+    public float longJumpEnergyDrainRate = 2;
+    public float shortJumpEnergyDrainRate = 2;
 
     [Header("Ground Check")]
     public Transform groundCheckPosition;
@@ -150,14 +152,16 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed && IsGrounded())
+        if (ctx.performed && IsGrounded() && !JetPackEnergy.Instance.isEnergyEmpty)
         {
             rb2D.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+            JetPackEnergy.Instance.DrainEnergy(longJumpEnergyDrainRate);
         }
-        else if (ctx.canceled && rb2D.linearVelocity.y > 0)
-        {
-            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, rb2D.linearVelocity.y * 0.5f);
-        }
+        //else if (ctx.canceled && rb2D.linearVelocity.y > 0 && !JetPackEnergy.Instance.isEnergyEmpty)
+        //{
+        //    rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, rb2D.linearVelocity.y * 0.5f);
+        //    JetPackEnergy.Instance.DrainEnergy(shortJumpEnergyDrainRate);
+        //}
     }
 
     #endregion
