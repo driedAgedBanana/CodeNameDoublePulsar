@@ -242,9 +242,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  standardGravity: 0.2
-  maxFallSpeed: 2
-  fallSpeedMultiplier: 1.5
+  standardGravity: 0
 --- !u!114 &307214361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,10 +542,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9e30da08ec3fac42b76a069ec58cd03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJetPack
-  thrustForce: 120
-  rotationSpeed: 35
-  maxVelocity: 10
+  thrustForce: 40
+  rotationSpeed: 80
   jetpackTrail: {fileID: 0}
+  drag: 3
   isJetPacking: 0
 --- !u!114 &307214367
 MonoBehaviour:
@@ -769,7 +767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GravitySource
   gravityStrength: 15
-  gravityRange: 25
+  gravityRange: 20
   gravityCollider: {fileID: 335360414}
 --- !u!58 &335360414
 CircleCollider2D:
@@ -1383,7 +1381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GravitySource
   gravityStrength: 15
-  gravityRange: 25
+  gravityRange: 20
   gravityCollider: {fileID: 1079065181}
 --- !u!60 &1079065183
 PolygonCollider2D:
@@ -1745,7 +1743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GravitySource
   gravityStrength: 15
-  gravityRange: 25
+  gravityRange: 20
   gravityCollider: {fileID: 1990475499}
 --- !u!60 &1990475501
 PolygonCollider2D:

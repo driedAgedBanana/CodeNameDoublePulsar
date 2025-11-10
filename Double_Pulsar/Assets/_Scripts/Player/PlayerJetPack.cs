@@ -9,8 +9,8 @@ public class PlayerJetPack : MonoBehaviour
     [Header("Jetpack Settings")]
     public float thrustForce = 8f;
     public float rotationSpeed = 180f; // degrees per second
-    public float maxVelocity = 10f;
     public TrailRenderer jetpackTrail;
+    public float drag = 3f; // Speed cap
 
     private Rigidbody2D rb2D;
     private Vector2 moveInput;
@@ -41,32 +41,31 @@ public class PlayerJetPack : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!isJetPacking) return;
+
         HandleRotation();
         HandleThrust();
-        LimitVelocity();
     }
 
     private void HandleRotation()
     {
         float rotationInput = -moveInput.x; // right arrow -> negative rotation
+
         if (Mathf.Abs(rotationInput) > 0.01f)
         {
-            rb2D.MoveRotation(rb2D.rotation + rotationInput * rotationSpeed * Time.fixedDeltaTime);
+            float newRotation = rb2D.rotation + (rotationInput * rotationSpeed * Time.fixedDeltaTime);
+            rb2D.MoveRotation(newRotation);
         }
     }
-
     private void HandleThrust()
     {
         if (isJetPacking && moveInput.y > 0.1f)
         {
-            rb2D.AddForce(transform.up * thrustForce, ForceMode2D.Force);
-        }
-    }
+            //rb2D.AddForce(transform.up * thrustForce, ForceMode2D.Force);
 
-    private void LimitVelocity()
-    {
-        if (rb2D.linearVelocity.magnitude > maxVelocity)
-            rb2D.linearVelocity = rb2D.linearVelocity.normalized * maxVelocity;
+            rb2D.AddForce(transform.up * thrustForce * moveInput.y);
+            rb2D.AddForce(-rb2D.linearVelocity * drag / 100);
+        }
     }
 
     // Input System: Toggle Jetpack on/off

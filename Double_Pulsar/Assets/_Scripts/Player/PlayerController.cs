@@ -24,12 +24,6 @@ public class PlayerController : MonoBehaviour
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
     public LayerMask groundLayer;
 
-    [Header("Gravity")]
-    public float standardGravity = 0.165f;
-    public float maxFallSpeed = -6f;
-    public float fallSpeedMultiplier = 6f;
-    private float _currentStandardGravity;
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -46,23 +40,14 @@ public class PlayerController : MonoBehaviour
     {
         rb2D = GetComponent<Rigidbody2D>();
         playerAnimation = GetComponent<Animator>();
-
-        _currentStandardGravity = standardGravity;
     }
 
     private void Update()
     {
-        if (PlayerJetPack.Instance != null && PlayerJetPack.Instance.isJetPacking)
-        {
-            _currentStandardGravity = -0.01f;
-        }
-        else
-        {
-            _currentStandardGravity = standardGravity;
-        }
+        if(PlayerDash.Instance.isDashing) return;
 
         HandleMoving();
-        HandleGravity();
+        // HandleGravity();
 
         playerAnimation.SetBool("isJumping", !IsGrounded());
     }
@@ -73,18 +58,18 @@ public class PlayerController : MonoBehaviour
         // playerAnimation.SetFloat("yVelocity", Mathf.Abs(rb2D.linearVelocity.y));
     }
 
-    private void HandleGravity()
-    {
-        if (rb2D.linearVelocity.y < 0)
-        {
-            rb2D.gravityScale = _currentStandardGravity * fallSpeedMultiplier; // Fall increasingly faster
-            rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, Mathf.Max(rb2D.linearVelocity.y, -maxFallSpeed)); // Cap the fall speed
-        }
-        else
-        {
-            rb2D.gravityScale = _currentStandardGravity;
-        }
-    }
+    //private void HandleGravity()
+    //{
+    //    if (rb2D.linearVelocity.y < 0)
+    //    {
+    //        rb2D.gravityScale = _currentStandardGravity * fallSpeedMultiplier; // Fall increasingly faster
+    //        rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, Mathf.Max(rb2D.linearVelocity.y, -maxFallSpeed)); // Cap the fall speed
+    //    }
+    //    else
+    //    {
+    //        rb2D.gravityScale = _currentStandardGravity;
+    //    }
+    //}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
