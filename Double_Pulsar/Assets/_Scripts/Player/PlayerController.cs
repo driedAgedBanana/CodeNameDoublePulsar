@@ -138,6 +138,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
+        if (!PlayerHealth.Instance.isAlive) return;
+
         _horizontalMovement = ctx.ReadValue<Vector2>().x;
 
         if (_horizontalMovement > 0 && !_isFacingRight)
@@ -152,6 +154,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext ctx)
     {
+        if (!PlayerHealth.Instance.isAlive) return;
+
         if (ctx.performed && IsGrounded() && !JetPackEnergy.Instance.isEnergyEmpty)
         {
             rb2D.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);

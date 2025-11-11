@@ -66,6 +66,8 @@ public class PlayerDash : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext ctx)
     {
+        if (!PlayerHealth.Instance.isAlive) return;
+
         if(ctx.performed && canDash && !JetPackEnergy.Instance.isEnergyEmpty)
         {
             StartCoroutine(StartDash());
