@@ -38,7 +38,7 @@ public class PlayerDash : MonoBehaviour
 
     private IEnumerator StartDash()
     {
-        if(JetPackEnergy.Instance.currentEnergy >= 0)
+        if (JetPackEnergy.Instance.currentEnergy > 0 && !PlayerHealth.Instance.isBeingKnocked)
         {
             canDash = false;
             isDashing = true;
@@ -56,17 +56,28 @@ public class PlayerDash : MonoBehaviour
             isDashing = false;
             yield return new WaitForSeconds(dashCooldown);
             canDash = true;
+
+            while (isDashing)
+            {
+                if (JetPackEnergy.Instance.currentEnergy <= 0 || PlayerHealth.Instance.isBeingKnocked)
+                {
+                    isDashing = false;
+                    dashTrail.emitting = false;
+                    rb2D.gravityScale = originalGravity;
+                    yield break;
+                }
+                yield return null; // wait a frame
+            }
         }
         else
         {
             yield break;
         }
-
     }
 
     public void OnDash(InputAction.CallbackContext ctx)
     {
-        if (!PlayerHealth.Instance.isAlive) return;
+        if (!PlayerHealth.Instance.isAlive || PlayerHealth.Instance.isBeingKnocked) return;
 
         if(ctx.performed && canDash && !JetPackEnergy.Instance.isEnergyEmpty)
         {

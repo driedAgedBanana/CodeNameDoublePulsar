@@ -17,6 +17,12 @@ public class PlayerHealth : MonoBehaviour
     public Rigidbody2D rb2D;
     [HideInInspector] public bool isBeingKnocked = false;
 
+    [Header("i-Frame")]
+    public float invulnerabilityDuration = 1f;
+    public int flashCount = 5;
+    private bool _isInvulnerable = false;
+    public SpriteRenderer playerSprite;
+
     [Header("UI settings")]
     public Slider healthSlider;
     public float lerpSpeed = 0.25f;
@@ -38,6 +44,7 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         rb2D = GetComponent<Rigidbody2D>();
+        playerSprite = GetComponent<SpriteRenderer>();
         UpdateHealthSlider();
     }
 
@@ -53,6 +60,8 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damage, Vector2 hitSource)
     {
+        if (_isInvulnerable) return;
+
         currentHealth -= damage;
 
         // Apply knockback
@@ -63,6 +72,8 @@ public class PlayerHealth : MonoBehaviour
 
         rb2D.AddForce(hitDir * knockbackForce, ForceMode2D.Impulse);
 
+        StartCoroutine(HandleIFrame());
+
         isBeingKnocked = true;
         StartCoroutine(StopMovementOnKnockBack(knockbackDuration));
     }
@@ -71,6 +82,21 @@ public class PlayerHealth : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         isBeingKnocked = false;
+    }
+
+    private IEnumerator HandleIFrame()
+    {
+        _isInvulnerable = true;
+
+        for(int i = 0; i < flashCount; i++)
+        {
+            playerSprite.enabled = false;
+            yield return new WaitForSeconds(invulnerabilityDuration / (flashCount * 2));
+            playerSprite.enabled = true;
+            yield return new WaitForSeconds(invulnerabilityDuration / (flashCount * 2));
+        }
+
+        _isInvulnerable = false;
     }
 
     public void Heal(float healAmount)
