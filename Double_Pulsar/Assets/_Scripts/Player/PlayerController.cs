@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if(PlayerDash.Instance.isDashing) return;
+        if(PlayerDash.Instance.isDashing || PlayerHealth.Instance.isBeingKnocked) return;
 
         HandleMoving();
         // HandleGravity();
