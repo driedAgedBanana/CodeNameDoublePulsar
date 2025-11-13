@@ -53,55 +53,86 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         if (currentHealth <= 0)
-            isAlive = false;
+        {
+            Die();
+        }
 
         UpdateHealthSlider();
     }
 
     public void TakeDamage(float damage, Vector2 hitSource)
     {
-        if (_isInvulnerable) return;
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
 
-        currentHealth -= damage;
+        else
+        {
+            if (_isInvulnerable) return;
 
-        // Apply knockback
-        Vector2 hitDir = (transform.position - (Vector3)hitSource).normalized;
+            currentHealth -= damage;
 
-        hitDir.y += 0.5f; // Add some vertical lift to the knockback
-        hitDir.Normalize();
+            // Apply knockback
+            Vector2 hitDir = (transform.position - (Vector3)hitSource).normalized;
 
-        rb2D.AddForce(hitDir * knockbackForce, ForceMode2D.Impulse);
+            hitDir.y += 0.5f; // Add some vertical lift to the knockback
+            hitDir.Normalize();
 
-        StartCoroutine(HandleIFrame());
+            rb2D.AddForce(hitDir * knockbackForce, ForceMode2D.Impulse);
 
-        isBeingKnocked = true;
-        StartCoroutine(StopMovementOnKnockBack(knockbackDuration));
+            StartCoroutine(HandleIFrame());
+
+            isBeingKnocked = true;
+            StartCoroutine(StopMovementOnKnockBack(knockbackDuration));
+        }
     }
 
     private IEnumerator StopMovementOnKnockBack(float seconds)
     {
-        yield return new WaitForSeconds(seconds);
-        isBeingKnocked = false;
+        if (!isAlive)
+        {
+            yield break;
+        }
+        else
+        {
+            yield return new WaitForSeconds(seconds);
+            isBeingKnocked = false;
+        }
     }
 
     private IEnumerator HandleIFrame()
     {
-        _isInvulnerable = true;
-
-        for(int i = 0; i < flashCount; i++)
+        if (!isAlive)
         {
-            playerSprite.enabled = false;
-            yield return new WaitForSeconds(invulnerabilityDuration / (flashCount * 2));
-            playerSprite.enabled = true;
-            yield return new WaitForSeconds(invulnerabilityDuration / (flashCount * 2));
+            yield break;
         }
+        else
+        {
+            _isInvulnerable = true;
 
-        _isInvulnerable = false;
+            for (int i = 0; i < flashCount; i++)
+            {
+                playerSprite.enabled = false;
+                yield return new WaitForSeconds(invulnerabilityDuration / (flashCount * 2));
+                playerSprite.enabled = true;
+                yield return new WaitForSeconds(invulnerabilityDuration / (flashCount * 2));
+            }
+
+            _isInvulnerable = false;
+        }
     }
 
     public void Heal(float healAmount)
     {
         currentHealth += healAmount;
+    }
+
+    public void Die()
+    {
+        PlayerController.Instance.rb2D.mass = 0;
+        PlayerController.Instance.rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
+        isAlive = false;
     }
 
     private void UpdateHealthSlider()
