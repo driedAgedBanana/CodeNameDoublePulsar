@@ -1085,7 +1085,6 @@ GameObject:
   - component: {fileID: 5622599940767710742}
   - component: {fileID: 4918264228645845823}
   - component: {fileID: 8531645353056655658}
-  - component: {fileID: 3998002428028005397}
   - component: {fileID: 6922069037665022140}
   - component: {fileID: 2108361719307064041}
   - component: {fileID: 2396576932832113813}
@@ -1161,20 +1160,6 @@ MonoBehaviour:
   waitTime: 0.5
   currentEnergy: 0
   isEnergyEmpty: 0
---- !u!114 &3998002428028005397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7904893580147167373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 232c2f386181e6e43931e74632cf6bcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraFollowPlayer
-  cameraTrackSpeed: 6
-  cameraMaxDistance: 6
 --- !u!114 &6922069037665022140
 MonoBehaviour:
   m_ObjectHideFlags: 0
