@@ -52,11 +52,11 @@ public class PlayerController : MonoBehaviour
         // HandleGravity();
 
         playerAnimation.SetBool("isJumping", !IsGrounded());
+        playerAnimation.SetFloat("xVelocity", Mathf.Abs(_horizontalMovement));
     }
 
     private void FixedUpdate()
     {
-        playerAnimation.SetFloat("xVelocity", Mathf.Abs(_horizontalMovement));
         // playerAnimation.SetFloat("yVelocity", Mathf.Abs(rb2D.linearVelocity.y));
     }
 
