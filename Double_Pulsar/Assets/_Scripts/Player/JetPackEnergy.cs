@@ -51,13 +51,15 @@ public class JetPackEnergy : MonoBehaviour
         isEnergyEmpty = currentEnergy <= 0;
         UpdateEnergyBar();
 
+        Debug.Log(currentEnergy);
+
         if (currentEnergy <= 0)
         {
             sweat.Play();
         }
         else
         {
-            sweat.Stop();
+            sweat.Pause();
         }
     }
 

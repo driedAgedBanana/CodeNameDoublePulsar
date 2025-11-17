@@ -19019,7 +19019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8531645353056655658, guid: 9ebeeecb21eb85d4caa5aeb24d23667c, type: 3}
       propertyPath: waitTime
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8531645353056655658, guid: 9ebeeecb21eb85d4caa5aeb24d23667c, type: 3}
       propertyPath: regainEnergyRate
