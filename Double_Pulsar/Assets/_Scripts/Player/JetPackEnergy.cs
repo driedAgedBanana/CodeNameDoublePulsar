@@ -59,7 +59,7 @@ public class JetPackEnergy : MonoBehaviour
         }
         else
         {
-            sweat.Pause();
+            sweat.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
     }
 
