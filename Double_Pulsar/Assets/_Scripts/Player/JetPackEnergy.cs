@@ -8,6 +8,7 @@ public class JetPackEnergy : MonoBehaviour
 
     [Header("UI")]
     public Slider jetPackEnergyBar;
+    public ParticleSystem sweat;
     public float maxEnergy = 100f;
     public float regainEnergyRate = 10f;
     public float waitTime = 1;
@@ -15,7 +16,8 @@ public class JetPackEnergy : MonoBehaviour
     [HideInInspector] public float currentEnergy;
     [HideInInspector] public bool isEnergyEmpty;
 
-    private bool isRecharging = false;
+    private bool _isRecharging = false;
+    [HideInInspector] public bool isPlayerTired = false;
     private Coroutine rechargeCoroutine;
 
     private void Awake()
@@ -32,6 +34,13 @@ public class JetPackEnergy : MonoBehaviour
 
     private void Start()
     {
+        if(sweat == null)
+        {
+            sweat = GetComponentInChildren<ParticleSystem>();
+            sweat.Stop();
+        }
+
+        jetPackEnergyBar.gameObject.SetActive(false);
         currentEnergy = maxEnergy;
         UpdateEnergyBar();
     }
@@ -41,6 +50,15 @@ public class JetPackEnergy : MonoBehaviour
         currentEnergy = Mathf.Clamp(currentEnergy, 0, maxEnergy);
         isEnergyEmpty = currentEnergy <= 0;
         UpdateEnergyBar();
+
+        if (currentEnergy <= 0)
+        {
+            sweat.Play();
+        }
+        else
+        {
+            sweat.Stop();
+        }
     }
 
     public void DrainEnergy(float energyDrainRate)
@@ -51,7 +69,7 @@ public class JetPackEnergy : MonoBehaviour
         if (rechargeCoroutine != null)
         {
             StopCoroutine(rechargeCoroutine);
-            isRecharging = false;
+            _isRecharging = false;
         }
 
         // Restart recharge delay
@@ -60,7 +78,7 @@ public class JetPackEnergy : MonoBehaviour
 
     private IEnumerator WaitBeforeRecharge()
     {
-        isRecharging = true;
+        _isRecharging = true;
         yield return new WaitForSeconds(waitTime);
 
         while (currentEnergy < maxEnergy)
@@ -69,7 +87,7 @@ public class JetPackEnergy : MonoBehaviour
             yield return null;
         }
 
-        isRecharging = false;
+        _isRecharging = false;
     }
 
     private void UpdateEnergyBar()
