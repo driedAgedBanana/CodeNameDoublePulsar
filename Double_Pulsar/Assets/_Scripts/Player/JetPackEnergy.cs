@@ -16,7 +16,7 @@ public class JetPackEnergy : MonoBehaviour
     [HideInInspector] public float currentEnergy;
     [HideInInspector] public bool isEnergyEmpty;
 
-    private bool _isRecharging = false;
+    [HideInInspector] public bool isRecharging = false;
     [HideInInspector] public bool isPlayerTired = false;
     private Coroutine rechargeCoroutine;
 
@@ -34,13 +34,11 @@ public class JetPackEnergy : MonoBehaviour
 
     private void Start()
     {
-        if(sweat == null)
+        if (sweat == null)
         {
             sweat = GetComponentInChildren<ParticleSystem>();
             sweat.Stop();
         }
-
-        jetPackEnergyBar.gameObject.SetActive(false);
         currentEnergy = maxEnergy;
         UpdateEnergyBar();
     }
@@ -50,17 +48,6 @@ public class JetPackEnergy : MonoBehaviour
         currentEnergy = Mathf.Clamp(currentEnergy, 0, maxEnergy);
         isEnergyEmpty = currentEnergy <= 0;
         UpdateEnergyBar();
-
-        Debug.Log(currentEnergy);
-
-        if (currentEnergy <= 0)
-        {
-            sweat.Play();
-        }
-        else
-        {
-            sweat.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        }
     }
 
     public void DrainEnergy(float energyDrainRate)
@@ -71,16 +58,22 @@ public class JetPackEnergy : MonoBehaviour
         if (rechargeCoroutine != null)
         {
             StopCoroutine(rechargeCoroutine);
-            _isRecharging = false;
+            isRecharging = false;
         }
 
-        // Restart recharge delay
+        if (currentEnergy <= 0)
+        {
+            sweat.Play();
+        }
+
         rechargeCoroutine = StartCoroutine(WaitBeforeRecharge());
+
     }
 
     private IEnumerator WaitBeforeRecharge()
     {
-        _isRecharging = true;
+        isRecharging = true;
+        isPlayerTired = true;
         yield return new WaitForSeconds(waitTime);
 
         while (currentEnergy < maxEnergy)
@@ -89,7 +82,11 @@ public class JetPackEnergy : MonoBehaviour
             yield return null;
         }
 
-        _isRecharging = false;
+        isRecharging = false;
+        isPlayerTired = false;
+
+        sweat.Stop();
+        sweat.Clear();
     }
 
     private void UpdateEnergyBar()

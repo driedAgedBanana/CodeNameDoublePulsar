@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if(PlayerDash.Instance.isDashing || PlayerHealth.Instance.isBeingKnocked) return;
+        if (PlayerDash.Instance.isDashing || PlayerHealth.Instance.isBeingKnocked) return;
 
         HandleMoving();
         // HandleGravity();
@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
         transform.localScale = theScale;
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         if (Physics2D.OverlapBox(groundCheckPosition.position, groundCheckSize, 0, groundLayer))
         {
@@ -156,10 +156,18 @@ public class PlayerController : MonoBehaviour
     {
         if (!PlayerHealth.Instance.isAlive) return;
 
-        if (ctx.performed && IsGrounded() && !JetPackEnergy.Instance.isEnergyEmpty)
+        if (ctx.started && IsGrounded())
         {
-            rb2D.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
-            JetPackEnergy.Instance.DrainEnergy(longJumpEnergyDrainRate);
+            if (!JetPackEnergy.Instance.isEnergyEmpty)
+            {
+                rb2D.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+                JetPackEnergy.Instance.DrainEnergy(longJumpEnergyDrainRate);
+            }
+            else if(JetPackEnergy.Instance.isPlayerTired)
+            {
+                rb2D.AddForce(transform.up * jumpForce / 1.5f, ForceMode2D.Impulse);
+                JetPackEnergy.Instance.DrainEnergy(shortJumpEnergyDrainRate);
+            }
         }
         //else if (ctx.canceled && rb2D.linearVelocity.y > 0 && !JetPackEnergy.Instance.isEnergyEmpty)
         //{
