@@ -725,7 +725,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Damageable
   damageAmount: 20
   knockBackForce: 3
-  hitDirection: {x: 0, y: 0}
   _damageInterval: 1
 --- !u!1 &873605253
 GameObject:
@@ -1165,8 +1164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Damageable
   damageAmount: 10
-  knockBackForce: 0
-  hitDirection: {x: 0, y: 0}
+  knockBackForce: 2
   _damageInterval: 0.7
 --- !u!1 &897635406
 GameObject:
@@ -45939,7 +45937,7 @@ Transform:
   m_GameObject: {fileID: 1377783269}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50.8, y: -0.3, z: -10}
+  m_LocalPosition: {x: 72.2, y: 26.3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -50952,11 +50950,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5622599940767710742, guid: 9ebeeecb21eb85d4caa5aeb24d23667c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 50.8
+      value: 72.2
       objectReference: {fileID: 0}
     - target: {fileID: 5622599940767710742, guid: 9ebeeecb21eb85d4caa5aeb24d23667c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.3
+      value: 26.3
       objectReference: {fileID: 0}
     - target: {fileID: 5622599940767710742, guid: 9ebeeecb21eb85d4caa5aeb24d23667c, type: 3}
       propertyPath: m_LocalPosition.z
