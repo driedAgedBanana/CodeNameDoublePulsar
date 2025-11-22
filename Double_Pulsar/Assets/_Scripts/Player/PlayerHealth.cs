@@ -12,7 +12,6 @@ public class PlayerHealth : MonoBehaviour
     [HideInInspector] public bool isAlive = true;
 
     [Header("Damage knockback settings")]
-    public float knockbackForce = 10f;
     public float knockbackDuration = 0.2f;
     public Rigidbody2D rb2D;
     [HideInInspector] public bool isBeingKnocked = false;
@@ -58,15 +57,16 @@ public class PlayerHealth : MonoBehaviour
         }
 
         UpdateHealthSlider();
+        DebugHealth();
     }
 
-    public void TakeDamage(float damage, Vector2 hitSource)
+    public void TakeDamage(float damage, Vector2 hitSource, float knockBackForce)
     {
         if (currentHealth <= 0)
         {
             Die();
+            return;
         }
-
         else
         {
             if (_isInvulnerable) return;
@@ -79,7 +79,7 @@ public class PlayerHealth : MonoBehaviour
             hitDir.y += 0.5f; // Add some vertical lift to the knockback
             hitDir.Normalize();
 
-            rb2D.AddForce(hitDir * knockbackForce, ForceMode2D.Impulse);
+            rb2D.AddForce(hitDir * knockBackForce, ForceMode2D.Impulse);
 
             StartCoroutine(HandleIFrame());
 
@@ -139,5 +139,13 @@ public class PlayerHealth : MonoBehaviour
     {
         float targetValue = currentHealth / maxHealth;
         healthSlider.value = Mathf.Lerp(healthSlider.value, targetValue, lerpSpeed * Time.deltaTime);
+    }
+
+    private void DebugHealth()
+    {
+        if ((Input.GetKeyDown(KeyCode.F2)))
+        {
+            currentHealth = maxHealth;
+        }
     }
 }

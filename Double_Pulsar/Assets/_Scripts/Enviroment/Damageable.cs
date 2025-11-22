@@ -4,6 +4,7 @@ using UnityEngine;
 public class Damageable : MonoBehaviour
 {
     public int damageAmount;
+    public float knockBackForce;
 
     private Coroutine damageCoroutine;
     [SerializeField] private float _damageInterval = 1f;
@@ -13,29 +14,44 @@ public class Damageable : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
         {
-            playerHealth.TakeDamage(damageAmount, transform.position);
-            Debug.Log("Player took 10 damage from DamageTest.");
+            // Use contact point as hit source if you want more accuracy
+            Vector2 hitPoint = collision.GetContact(0).point;
+
+            playerHealth.TakeDamage(damageAmount, hitPoint, knockBackForce);
         }
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         _isEnteringTriggerZone = true;
-        damageCoroutine = StartCoroutine(DealDamageOverTime(collision.GetComponent<PlayerHealth>()));
+        collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth);
+        damageCoroutine = StartCoroutine(DealDamageOverTime(playerHealth));
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         _isEnteringTriggerZone = false;
+        collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth);
         StopCoroutine(damageCoroutine);
     }
 
     private IEnumerator DealDamageOverTime(PlayerHealth playerHealth)
     {
-        while (_isEnteringTriggerZone)
+        if(!_isEnteringTriggerZone)
         {
-            playerHealth.TakeDamage(damageAmount, transform.position);
-            yield return new WaitForSeconds(_damageInterval);
+            yield break;
+        }
+        else
+        {
+            while (true)
+            {
+                if (playerHealth != null)
+                {
+                    playerHealth.TakeDamage(damageAmount, transform.position, knockBackForce);
+                }
+                yield return new WaitForSeconds(_damageInterval);
+            }
         }
     }
 }
