@@ -8,6 +8,7 @@ public class JetPackEnergy : MonoBehaviour
 
     [Header("UI")]
     public Slider jetPackEnergyBar;
+    public ParticleSystem sweat;
     public float maxEnergy = 100f;
     public float regainEnergyRate = 10f;
     public float waitTime = 1;
@@ -15,7 +16,8 @@ public class JetPackEnergy : MonoBehaviour
     [HideInInspector] public float currentEnergy;
     [HideInInspector] public bool isEnergyEmpty;
 
-    private bool isRecharging = false;
+    [HideInInspector] public bool isRecharging = false;
+    [HideInInspector] public bool isPlayerTired = false;
     private Coroutine rechargeCoroutine;
 
     private void Awake()
@@ -32,6 +34,11 @@ public class JetPackEnergy : MonoBehaviour
 
     private void Start()
     {
+        if (sweat == null)
+        {
+            sweat = GetComponentInChildren<ParticleSystem>();
+            sweat.Stop();
+        }
         currentEnergy = maxEnergy;
         UpdateEnergyBar();
     }
@@ -54,13 +61,19 @@ public class JetPackEnergy : MonoBehaviour
             isRecharging = false;
         }
 
-        // Restart recharge delay
+        if (currentEnergy <= 0)
+        {
+            sweat.Play();
+        }
+
         rechargeCoroutine = StartCoroutine(WaitBeforeRecharge());
+
     }
 
     private IEnumerator WaitBeforeRecharge()
     {
         isRecharging = true;
+        isPlayerTired = true;
         yield return new WaitForSeconds(waitTime);
 
         while (currentEnergy < maxEnergy)
@@ -70,6 +83,10 @@ public class JetPackEnergy : MonoBehaviour
         }
 
         isRecharging = false;
+        isPlayerTired = false;
+
+        sweat.Stop();
+        sweat.Clear();
     }
 
     private void UpdateEnergyBar()
