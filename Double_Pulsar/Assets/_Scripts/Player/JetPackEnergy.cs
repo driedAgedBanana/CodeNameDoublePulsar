@@ -48,6 +48,11 @@ public class JetPackEnergy : MonoBehaviour
         currentEnergy = Mathf.Clamp(currentEnergy, 0, maxEnergy);
         isEnergyEmpty = currentEnergy <= 0;
         UpdateEnergyBar();
+
+        if (currentEnergy <= maxEnergy)
+        {
+            CheckIfGroundedForRecharge();
+        }
     }
 
     public void DrainEnergy(float energyDrainRate)
@@ -66,8 +71,6 @@ public class JetPackEnergy : MonoBehaviour
             sweat.Play();
         }
 
-        rechargeCoroutine = StartCoroutine(WaitBeforeRecharge());
-
     }
 
     private IEnumerator WaitBeforeRecharge()
@@ -78,16 +81,32 @@ public class JetPackEnergy : MonoBehaviour
 
         while (currentEnergy < maxEnergy)
         {
+            sweat.Stop();
+            sweat.Clear();
             currentEnergy += regainEnergyRate * Time.deltaTime;
             yield return null;
         }
 
         isRecharging = false;
         isPlayerTired = false;
-
-        sweat.Stop();
-        sweat.Clear();
     }
+
+    private void CheckIfGroundedForRecharge()
+    {
+        bool grounded = PlayerController.Instance.IsGrounded();
+
+        if (grounded && !isRecharging && currentEnergy < maxEnergy)
+        {
+            rechargeCoroutine = StartCoroutine(WaitBeforeRecharge());
+        }
+
+        if (!grounded && isRecharging)
+        {
+            StopCoroutine(rechargeCoroutine);
+            isRecharging = false;
+        }
+    }
+
 
     private void UpdateEnergyBar()
     {

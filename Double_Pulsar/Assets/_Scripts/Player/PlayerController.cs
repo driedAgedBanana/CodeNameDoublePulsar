@@ -53,6 +53,8 @@ public class PlayerController : MonoBehaviour
 
         playerAnimation.SetBool("isJumping", !IsGrounded());
         playerAnimation.SetFloat("xVelocity", Mathf.Abs(_horizontalMovement));
+
+        print(IsGrounded());
     }
 
     private void FixedUpdate()
