@@ -73,13 +73,16 @@ public class PlayerHealth : MonoBehaviour
 
             currentHealth -= damage;
 
-            // Apply knockback
-            Vector2 hitDir = (transform.position - (Vector3)hitSource).normalized;
+            if(knockBackForce >= 0)
+            {
+                // Apply knockback
+                Vector2 hitDir = (transform.position - (Vector3)hitSource).normalized;
 
-            hitDir.y += 0.5f; // Add some vertical lift to the knockback
-            hitDir.Normalize();
+                hitDir.y += 0.5f; // Add some vertical lift to the knockback
+                hitDir.Normalize();
 
-            rb2D.AddForce(hitDir * knockBackForce, ForceMode2D.Impulse);
+                rb2D.AddForce(hitDir * knockBackForce, ForceMode2D.Impulse);
+            }
 
             StartCoroutine(HandleIFrame());
 

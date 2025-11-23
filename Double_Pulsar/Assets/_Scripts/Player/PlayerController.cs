@@ -12,11 +12,13 @@ public class PlayerController : MonoBehaviour
     public Animator playerAnimation;
 
     [Header("Movements")]
+    [HideInInspector] public float currentSpeed;
     public float moveSpeed;
     private float _horizontalMovement;
     private bool _isFacingRight = true;
 
     [Header("Jumping")]
+    [HideInInspector] public float currentJumpForce;
     public float jumpForce;
     public float longJumpEnergyDrainRate = 2;
     public float shortJumpEnergyDrainRate = 2;
@@ -42,6 +44,9 @@ public class PlayerController : MonoBehaviour
     {
         rb2D = GetComponent<Rigidbody2D>();
         playerAnimation = GetComponent<Animator>();
+
+        currentSpeed = moveSpeed;
+        currentJumpForce = jumpForce;
     }
 
     private void Update()
@@ -99,12 +104,12 @@ public class PlayerController : MonoBehaviour
             Vector2 gravityDirection = ((Vector2)currentGravitySource.transform.position - rb2D.position).normalized;
 
             // Tangent movement along surface
-            Vector2 tangent = Vector2.Perpendicular(gravityDirection) * _horizontalMovement * moveSpeed;
+            Vector2 tangent = Vector2.Perpendicular(gravityDirection) * _horizontalMovement * currentSpeed;
             rb2D.AddForce(tangent);
         }
         else
         {
-            rb2D.linearVelocity = new Vector2(_horizontalMovement * moveSpeed, rb2D.linearVelocity.y);
+            rb2D.linearVelocity = new Vector2(_horizontalMovement * currentSpeed, rb2D.linearVelocity.y);
         }
     }
 
@@ -160,12 +165,12 @@ public class PlayerController : MonoBehaviour
         {
             if (!JetPackEnergy.Instance.isEnergyEmpty)
             {
-                rb2D.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+                rb2D.AddForce(transform.up * currentJumpForce, ForceMode2D.Impulse);
                 JetPackEnergy.Instance.DrainEnergy(longJumpEnergyDrainRate);
             }
             else if(JetPackEnergy.Instance.isPlayerTired)
             {
-                rb2D.AddForce(transform.up * jumpForce / 1.5f, ForceMode2D.Impulse);
+                rb2D.AddForce(transform.up * currentJumpForce / 1.5f, ForceMode2D.Impulse);
                 JetPackEnergy.Instance.DrainEnergy(shortJumpEnergyDrainRate);
             }
         }

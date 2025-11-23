@@ -25,20 +25,28 @@ public class Damageable : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         _isEnteringTriggerZone = true;
-        collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth);
-        damageCoroutine = StartCoroutine(DealDamageOverTime(playerHealth));
+        if (collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+        {
+            Vector2 hitPoint = collision.ClosestPoint(transform.position);
+            damageCoroutine = StartCoroutine(DealDamageOverTime(playerHealth, hitPoint));
+        }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         _isEnteringTriggerZone = false;
         collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth);
-        StopCoroutine(damageCoroutine);
+
+        if(damageCoroutine != null)
+        {
+            StopCoroutine(damageCoroutine);
+        }
     }
 
-    private IEnumerator DealDamageOverTime(PlayerHealth playerHealth)
+    private IEnumerator DealDamageOverTime(PlayerHealth playerHealth, Vector2 hitPoint)
     {
-        if(!_isEnteringTriggerZone)
+        if (!_isEnteringTriggerZone)
         {
             yield break;
         }
@@ -48,7 +56,7 @@ public class Damageable : MonoBehaviour
             {
                 if (playerHealth != null)
                 {
-                    playerHealth.TakeDamage(damageAmount, transform.position, knockBackForce);
+                    playerHealth.TakeDamage(damageAmount, hitPoint, knockBackForce);
                 }
                 yield return new WaitForSeconds(_damageInterval);
             }
