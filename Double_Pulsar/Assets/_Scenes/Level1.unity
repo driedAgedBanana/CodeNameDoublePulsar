@@ -207,6 +207,37 @@ MonoBehaviour:
   m_MaximumFOV: 60
   m_MinimumOrthoSize: 1
   m_MaximumOrthoSize: 5000
+--- !u!1 &178716242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 178716243}
+  m_Layer: 6
+  m_Name: GroundDetection
+  m_TagString: Untagged
+  m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &178716243
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178716242}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1734519407}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &272859953 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5622599940767710742, guid: 9ebeeecb21eb85d4caa5aeb24d23667c, type: 3}
@@ -220,13 +251,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 440014427}
     m_Modifications:
+    - target: {fileID: 1898919516898984167, guid: 048cd094870bb0e4a8d7fa0d2700fabd, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4325187710082653204, guid: 048cd094870bb0e4a8d7fa0d2700fabd, type: 3}
       propertyPath: bounceForce
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 5252688321009618975, guid: 048cd094870bb0e4a8d7fa0d2700fabd, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6569517464618810907, guid: 048cd094870bb0e4a8d7fa0d2700fabd, type: 3}
       propertyPath: m_Name
       value: JumpPad
+      objectReference: {fileID: 0}
+    - target: {fileID: 6569517464618810907, guid: 048cd094870bb0e4a8d7fa0d2700fabd, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7182672912915627276, guid: 048cd094870bb0e4a8d7fa0d2700fabd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -287,7 +330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 440014427}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: JumpPads
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +368,7 @@ GameObject:
   - component: {fileID: 636540360}
   - component: {fileID: 636540359}
   - component: {fileID: 636540361}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DeathTraps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -897,7 +940,7 @@ GameObject:
   - component: {fileID: 873605255}
   - component: {fileID: 873605261}
   - component: {fileID: 873605260}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Toxins
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45825,7 +45868,7 @@ Transform:
   m_GameObject: {fileID: 1299002384}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: 0}
+  m_LocalPosition: {x: -1.02, y: -0.413, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46059,7 +46102,7 @@ Transform:
   m_GameObject: {fileID: 1377783269}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 72.2, y: 26.3, z: -10}
+  m_LocalPosition: {x: 59.67, y: 0.1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -46293,11 +46336,12 @@ Transform:
   m_GameObject: {fileID: 1734519405}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.36308, y: 0.46086, z: 0}
+  m_LocalPosition: {x: 81.07, y: 25.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1299002385}
+  - {fileID: 178716243}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1734519408
@@ -46401,16 +46445,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemies
   player: {fileID: 0}
+  groundDetection: {fileID: 178716243}
   patrolSpeed: 2
   chaseSpeed: 3.5
   groundDetectionDistance: 1
+  patrolCheckDistance: 1.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   patrolCheckFront: {fileID: 1299002385}
-  enemyLayer:
+  obstacleLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 200
 --- !u!1001 &8065725401877301637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46486,11 +46532,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5622599940767710742, guid: 9ebeeecb21eb85d4caa5aeb24d23667c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 72.2
+      value: 59.67
       objectReference: {fileID: 0}
     - target: {fileID: 5622599940767710742, guid: 9ebeeecb21eb85d4caa5aeb24d23667c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 26.3
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5622599940767710742, guid: 9ebeeecb21eb85d4caa5aeb24d23667c, type: 3}
       propertyPath: m_LocalPosition.z
