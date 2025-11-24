@@ -8,6 +8,9 @@ public class Enemies : MonoBehaviour
     public Transform player;
     public Transform groundDetection;
 
+    [Header("Detection Settings")]
+    public float detectionRange = 5f;
+
     [Header("Movement Speeds")]
     public float patrolSpeed = 2f;
     public float chaseSpeed = 3.5f;     
@@ -39,14 +42,21 @@ public class Enemies : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Patrol();
+        // Determine distance between enemy and player
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        if (distanceToPlayer < detectionRange)
+        {
+            ChasePlayer();
+        }
+        else
+        {
+            Patrol();
+        }
     }
 
     private void Patrol()
-    {
-        // Determine distance between enemy and player
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-   
+    {   
         currentSpeed = patrolSpeed;
         transform.Translate((_isMovingRight ? Vector2.right : Vector2.left) * currentSpeed * Time.deltaTime);
 
@@ -63,7 +73,23 @@ public class Enemies : MonoBehaviour
         {
             Flip();
         }
+    }
 
+    private void ChasePlayer()
+    {
+        currentSpeed = chaseSpeed;
+
+        Vector2 directionToPlayer = (player.position - transform.position).normalized;
+        transform.position = Vector2.MoveTowards(transform.position, player.position, currentSpeed * Time.deltaTime);
+
+        if(directionToPlayer.x > 0 && !_isMovingRight)
+        {
+            Flip();
+        }
+        else if(directionToPlayer.x < 0 && _isMovingRight)
+        {
+            Flip();
+        }
     }
 
     private void Flip()
