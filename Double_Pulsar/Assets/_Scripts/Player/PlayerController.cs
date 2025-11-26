@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     public float longJumpEnergyDrainRate = 2;
     public float shortJumpEnergyDrainRate = 2;
 
+    [Header("Dealing damage on enemies")]
+    public int damageAmount = 100;
+    public int bounceForceOnEnemy = 10;
+
     [Header("Ground Check")]
     public Transform groundCheckPosition;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
@@ -78,9 +82,18 @@ public class PlayerController : MonoBehaviour
     //    }
     //}
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemyHealth))
+        {
+            enemyHealth.ApplyDamage(damageAmount);
+            rb2D.AddForce(transform.up * bounceForceOnEnemy, ForceMode2D.Impulse);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<GravitySource>(out GravitySource gravitySource))
+        if (collision.gameObject.TryGetComponent<GravitySource>(out GravitySource gravitySource))
         {
             currentGravitySource = gravitySource;
         }
@@ -88,7 +101,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out GravitySource gravitySource) && gravitySource == currentGravitySource)
+        if (collision.gameObject.TryGetComponent(out GravitySource gravitySource) && gravitySource == currentGravitySource)
         {
             currentGravitySource = null;
         }

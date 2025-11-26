@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Enemies : MonoBehaviour
 {
+    [Header("Referencess")]
+    public EnemiesHealth enemyHealth;
+
     [Header("References")]
     public Transform player;
     public Transform groundDetection;
@@ -13,7 +16,7 @@ public class Enemies : MonoBehaviour
 
     [Header("Movement Speeds")]
     public float patrolSpeed = 2f;
-    public float chaseSpeed = 3.5f;     
+    public float chaseSpeed = 3.5f;
     private float currentSpeed;
     // Detections
     public float groundDetectionDistance = 1f;
@@ -24,10 +27,18 @@ public class Enemies : MonoBehaviour
 
     private bool _isMovingRight;
 
+    [Header("Attack Settings")]
+    public CapsuleCollider2D attackCollider;
+    public float attackDamage = 10f;
+    public float attackKnockback = 5f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         GameObject playerObj = GameObject.FindWithTag("Player");
+
+        enemyHealth = GetComponent<EnemiesHealth>();
+
 
         if (playerObj != null)
         {
@@ -42,6 +53,8 @@ public class Enemies : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!enemyHealth.isAlive) return;
+
         // Determine distance between enemy and player
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
@@ -56,7 +69,7 @@ public class Enemies : MonoBehaviour
     }
 
     private void Patrol()
-    {   
+    {
         currentSpeed = patrolSpeed;
         transform.Translate((_isMovingRight ? Vector2.right : Vector2.left) * currentSpeed * Time.deltaTime);
 
@@ -69,7 +82,7 @@ public class Enemies : MonoBehaviour
         Debug.DrawRay(patrolCheckFront.position, frontDirection * patrolCheckDistance, Color.red);
 
         // If no ground detected or enemy in front, flip direction
-        if(!groundInformation.collider || other.collider != null)
+        if (!groundInformation.collider || other.collider != null)
         {
             Flip();
         }
@@ -80,13 +93,14 @@ public class Enemies : MonoBehaviour
         currentSpeed = chaseSpeed;
 
         Vector2 directionToPlayer = (player.position - transform.position).normalized;
-        transform.position = Vector2.MoveTowards(transform.position, player.position, currentSpeed * Time.deltaTime);
+        Vector3 targetPos = new Vector3(player.position.x, transform.position.y, transform.position.z);
+        transform.position = Vector2.MoveTowards(transform.position, targetPos, currentSpeed * Time.deltaTime);
 
-        if(directionToPlayer.x > 0 && !_isMovingRight)
+        if (directionToPlayer.x > 0 && !_isMovingRight)
         {
             Flip();
         }
-        else if(directionToPlayer.x < 0 && _isMovingRight)
+        else if (directionToPlayer.x < 0 && _isMovingRight)
         {
             Flip();
         }
@@ -98,5 +112,13 @@ public class Enemies : MonoBehaviour
         Vector3 localScale = transform.localScale;
         localScale.x *= -1;
         transform.localScale = localScale;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+        {
+            playerHealth.TakeDamage(attackDamage, transform.position, attackKnockback);
+        }
     }
 }

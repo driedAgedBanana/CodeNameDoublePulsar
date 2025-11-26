@@ -6391,6 +6391,8 @@ MonoBehaviour:
   jumpForce: 6.5
   longJumpEnergyDrainRate: 15
   shortJumpEnergyDrainRate: 17
+  damageAmount: 100
+  bounceForceOnEnemy: 2
   groundCheckPosition: {fileID: 3394814805484554808}
   groundCheckSize: {x: 0.37, y: 0.01}
   groundLayer:
