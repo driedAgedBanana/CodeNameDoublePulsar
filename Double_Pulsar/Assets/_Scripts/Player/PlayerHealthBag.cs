@@ -29,13 +29,15 @@ public class PlayerHealthBag : MonoBehaviour
         // Clamp currentHealthPotion to not exceed maxHealthPotion
         currentHealthPotion = Mathf.Clamp(currentHealthPotion, 0, maxHealthPotion);
 
-        if (currentHealthPotion > maxHealthPotion)
-        {
-            return;
-        }
-
         UpdatePotionUI();
-        CheckIfPotionIsFull();
+
+        bool isBagFull = currentHealthPotion >= maxHealthPotion;
+
+        int playerLayer = LayerMask.NameToLayer("Player");
+        int potionLayer = LayerMask.NameToLayer("HeartPotion");
+
+        // If bag full, ignore potion collisions
+        Physics2D.IgnoreLayerCollision(playerLayer, potionLayer, isBagFull);
     }
 
     public void UsePotion()
@@ -58,17 +60,6 @@ public class PlayerHealthBag : MonoBehaviour
         {
             currentHealthPotion += 1;
         }
-    }
-
-    public void CheckIfPotionIsFull()
-    {
-        bool isBagFull = currentHealthPotion >= maxHealthPotion;
-
-        int playerLayer = LayerMask.NameToLayer("Player");
-        int potionLayer = LayerMask.NameToLayer("HeartPotion");
-
-        // If bag full, ignore potion collisions
-        Physics2D.IgnoreLayerCollision(playerLayer, potionLayer, isBagFull);
     }
 
     public void UpdatePotionUI()
