@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D rb2D;
     public GravitySource currentGravitySource;
 
+    [Header("Component References")]
+    public PlayerHealthBag playerHealthBag;
+    public PlayerWallet playerWallet;
+
     [Header("Animations")]
     public Animator playerAnimation;
 
@@ -31,6 +35,8 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheckPosition;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
     public LayerMask groundLayer;
+
+
 
     private void Awake()
     {

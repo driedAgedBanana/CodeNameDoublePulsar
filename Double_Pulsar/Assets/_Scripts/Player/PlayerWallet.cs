@@ -4,23 +4,10 @@ using TMPro;
 
 public class PlayerWallet : MonoBehaviour
 {
-    public static PlayerWallet Instance;
-
     [Header("UI Elements")]
     public TextMeshProUGUI coinText;
 
     private int _coinCount = 0;
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     private void Start()
     {
