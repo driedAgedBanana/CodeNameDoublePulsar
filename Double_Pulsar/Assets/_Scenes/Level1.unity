@@ -46478,6 +46478,68 @@ PolygonCollider2D:
       - {x: 65.93583, y: -1.045128}
       - {x: 65.91557, y: 5.235067}
   m_UseDelaunayMesh: 0
+--- !u!1 &1368986658 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8070582066397260069, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
+  m_PrefabInstance: {fileID: 4486196082287815041}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1368986665 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2156675947492946240, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
+  m_PrefabInstance: {fileID: 4486196082287815041}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368986658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a03d94843043914a8321a5bf5a0f07a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemiesHealth
+--- !u!61 &1368986669
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368986658}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.3437871}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.18, y: 0.7}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.85484713, y: 0.01242584}
+  m_EdgeRadius: 0
 --- !u!1 &1377783269
 GameObject:
   m_ObjectHideFlags: 0
@@ -46847,7 +46909,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 112187367451389889, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: -0.427
       objectReference: {fileID: 0}
     - target: {fileID: 112187367451389889, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -46881,6 +46943,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 423200635246672074, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
+      propertyPath: m_Size.x
+      value: 0.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 423200635246672074, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 754126682429211730, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
+      propertyPath: enemyHealth
+      value: 
+      objectReference: {fileID: 1368986665}
+    - target: {fileID: 754126682429211730, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
+      propertyPath: attackCollider
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610273252667117101, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6573501976973222971, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713098768399927195, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713098768399927195, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
+      propertyPath: m_GravityScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8070582066397260069, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
       propertyPath: m_Name
       value: Enemies_Mouse
@@ -46888,7 +46982,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8070582066397260069, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 1368986669}
   m_SourcePrefab: {fileID: 100100000, guid: db8a013537448804c9e7062dbdabcc56, type: 3}
 --- !u!1001 &8065725401877301637
 PrefabInstance:
