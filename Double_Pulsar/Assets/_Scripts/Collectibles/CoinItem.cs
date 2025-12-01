@@ -10,6 +10,16 @@ public class CoinItem : ItemBase
         {
             OnCollect(player);
         }
+
+        if(collision.gameObject.TryGetComponent<Damageable>(out Damageable damageable))
+        {
+            Destroy(gameObject);
+        }
+
+        if (collision.gameObject.TryGetComponent<Enemies>(out Enemies enemies))
+        {
+            Destroy(gameObject);
+        }
     }
 
     public override void OnCollect(PlayerController player)

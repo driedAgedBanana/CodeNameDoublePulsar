@@ -441,6 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthBag
   maxHealthPotion: 2
   currentHealthPotion: 0
+  isBagFull: 0
   minHealAmount: 5
   maxHealAmount: 20
   heartPotions:
