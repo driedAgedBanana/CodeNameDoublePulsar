@@ -12,7 +12,14 @@ public class PotionItem : ItemBase
 
     public override void OnCollect(PlayerController player)
     {
-        player.playerHealthBag.AddPotion();
-        Destroy(gameObject);
+        if(player.playerHealthBag.isBagFull)
+        {
+            return;
+        }
+        else
+        {
+            player.playerHealthBag.AddPotion();
+            Destroy(gameObject);
+        }
     }
 }

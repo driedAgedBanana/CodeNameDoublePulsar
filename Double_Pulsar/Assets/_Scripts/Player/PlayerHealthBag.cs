@@ -7,6 +7,7 @@ public class PlayerHealthBag : MonoBehaviour
     [Header("Health Potion Settings")]
     public int maxHealthPotion = 2;
     [HideInInspector] public int currentHealthPotion;
+    [HideInInspector] public bool isBagFull = false;
 
     [Header("Healing Settings")]
     public int minHealAmount = 25;
@@ -31,13 +32,7 @@ public class PlayerHealthBag : MonoBehaviour
 
         UpdatePotionUI();
 
-        bool isBagFull = currentHealthPotion >= maxHealthPotion;
-
-        int playerLayer = LayerMask.NameToLayer("Player");
-        int potionLayer = LayerMask.NameToLayer("HeartPotion");
-
-        // If bag full, ignore potion collisions
-        Physics2D.IgnoreLayerCollision(playerLayer, potionLayer, isBagFull);
+        isBagFull = currentHealthPotion >= maxHealthPotion;
     }
 
     public void UsePotion()

@@ -36,8 +36,6 @@ public class PlayerController : MonoBehaviour
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
     public LayerMask groundLayer;
 
-
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
