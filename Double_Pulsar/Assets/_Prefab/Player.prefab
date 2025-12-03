@@ -6665,6 +6665,7 @@ GameObject:
   - component: {fileID: 5200960579016841918}
   - component: {fileID: 3884714125470828964}
   - component: {fileID: 1916472243499780766}
+  - component: {fileID: 6382795851992982305}
   - component: {fileID: 41268606424373387}
   - component: {fileID: 7881662180442179958}
   m_Layer: 8
@@ -6752,6 +6753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   rb2D: {fileID: 3884714125470828964}
   currentGravitySource: {fileID: 0}
+  jetPackEnergy: {fileID: 8531645353056655658}
   playerHealthBag: {fileID: 5326140311380927305}
   playerWallet: {fileID: 8777194743341876399}
   playerHealth: {fileID: 4918264228645845823}
@@ -6791,6 +6793,7 @@ MonoBehaviour:
   dashTrail: {fileID: 8766764000132871887}
   canDash: 1
   isDashing: 0
+  invincibleDashCollider: {fileID: 6382795851992982305}
   dashEnergyDrainRate: 35
 --- !u!114 &5326140311380927305
 MonoBehaviour:
@@ -6927,6 +6930,52 @@ Rigidbody2D:
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &1916472243499780766
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904893580147167373}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.66, y: 0.92}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.66, y: 0.92}
+  m_EdgeRadius: 0
+--- !u!61 &6382795851992982305
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

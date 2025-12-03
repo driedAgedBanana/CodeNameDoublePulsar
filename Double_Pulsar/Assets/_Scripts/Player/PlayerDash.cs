@@ -14,6 +14,8 @@ public class PlayerDash : MonoBehaviour
     [HideInInspector] public bool canDash;
     [HideInInspector] public bool isDashing;
 
+    public BoxCollider2D invincibleDashCollider;
+
     public float dashEnergyDrainRate = 3.5f;
 
     private void Start()
@@ -23,6 +25,11 @@ public class PlayerDash : MonoBehaviour
         dashTrail.emitting = false;
 
         currentDashForce = dashForce;
+
+        if (invincibleDashCollider != null)
+        {
+            invincibleDashCollider.enabled = false;
+        }
     }
 
     private IEnumerator StartDash()
@@ -33,7 +40,7 @@ public class PlayerDash : MonoBehaviour
             isDashing = true;
             float originalGravity = rb2D.gravityScale;
             rb2D.gravityScale = 0f;
-
+            invincibleDashCollider.enabled = true;
             rb2D.linearVelocity = new Vector2(transform.localScale.x * currentDashForce, 0f);
             PlayerController.Instance.jetPackEnergy.DrainEnergy(dashEnergyDrainRate);
             dashTrail.emitting = true;
@@ -43,6 +50,7 @@ public class PlayerDash : MonoBehaviour
             dashTrail.emitting = false;
             rb2D.gravityScale = originalGravity;
             isDashing = false;
+            invincibleDashCollider.enabled = false;
             yield return new WaitForSeconds(dashCooldown);
             canDash = true;
 
@@ -53,6 +61,7 @@ public class PlayerDash : MonoBehaviour
                     isDashing = false;
                     dashTrail.emitting = false;
                     rb2D.gravityScale = originalGravity;
+                    invincibleDashCollider.enabled = false;
                     yield break;
                 }
                 yield return null; // wait a frame
@@ -64,11 +73,22 @@ public class PlayerDash : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemiesHealth))
+        {
+            if (invincibleDashCollider.enabled)
+            {
+                enemiesHealth.Die();
+            }
+        }
+    }
+
     public void OnDash(InputAction.CallbackContext ctx)
     {
         if (!PlayerController.Instance.playerHealth.isAlive || PlayerController.Instance.playerHealth.isBeingKnocked) return;
 
-        if(ctx.performed && canDash && !PlayerController.Instance.jetPackEnergy.isEnergyEmpty)
+        if (ctx.performed && canDash && !PlayerController.Instance.jetPackEnergy.isEnergyEmpty)
         {
             StartCoroutine(StartDash());
         }

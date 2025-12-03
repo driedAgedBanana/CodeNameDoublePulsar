@@ -186,7 +186,7 @@ public class PlayerController : MonoBehaviour
 
         if (ctx.started && IsGrounded())
         {
-            if (!PlayerController.Instance.jetPackEnergy.isEnergyEmpty)
+            if (!jetPackEnergy.isEnergyEmpty)
             {
                 rb2D.AddForce(transform.up * currentJumpForce, ForceMode2D.Impulse);
                 PlayerController.Instance.jetPackEnergy.DrainEnergy(longJumpEnergyDrainRate);
