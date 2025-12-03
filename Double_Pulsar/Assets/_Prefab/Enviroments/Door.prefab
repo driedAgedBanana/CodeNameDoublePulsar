@@ -365,3 +365,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorSwitchScene
   eIcon: {fileID: 3230154713897457929}
+  _destination: {fileID: 0}

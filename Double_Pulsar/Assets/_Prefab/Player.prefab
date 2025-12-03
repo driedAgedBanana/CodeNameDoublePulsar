@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8393659121515783144}
   - component: {fileID: 3175476428297113352}
   - component: {fileID: 2562401281565452505}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sweat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4848,7 +4848,7 @@ GameObject:
   - component: {fileID: 6748598422072152502}
   - component: {fileID: 584131892076542106}
   - component: {fileID: 775218336185516791}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4923,7 +4923,7 @@ GameObject:
   - component: {fileID: 4050856076465931508}
   - component: {fileID: 289603106881247399}
   - component: {fileID: 4860341552350302682}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5059,7 +5059,7 @@ GameObject:
   - component: {fileID: 6218110217740349564}
   - component: {fileID: 5113477871748474727}
   - component: {fileID: 4572616442243188207}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5138,7 +5138,7 @@ GameObject:
   - component: {fileID: 4418002437609508822}
   - component: {fileID: 281248100664846039}
   - component: {fileID: 1099532765654566392}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CoinImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5211,7 +5211,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3394814805484554808}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GroundCheckPos
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
@@ -5243,7 +5243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3665614702080377190}
   - component: {fileID: 3567125803400025702}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: JetPackEnergy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5323,6 +5323,72 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &2535976413271671376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 910107203868432024}
+  - component: {fileID: 4453097676199956501}
+  m_Layer: 8
+  m_Name: PotionAmountUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &910107203868432024
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2535976413271671376}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2968504149171377984}
+  - {fileID: 585264340908380411}
+  - {fileID: 1666913020791722919}
+  - {fileID: 6338152069220752669}
+  m_Father: {fileID: 6731684189872000810}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -616.85, y: 177.64923}
+  m_SizeDelta: {x: 290.16, y: 82.4825}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4453097676199956501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2535976413271671376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &2896711416243922916
 GameObject:
   m_ObjectHideFlags: 0
@@ -5334,7 +5400,7 @@ GameObject:
   - component: {fileID: 1904214358772711754}
   - component: {fileID: 9162434257914314734}
   - component: {fileID: 5134827583436396808}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5409,7 +5475,7 @@ GameObject:
   - component: {fileID: 7836208580412295109}
   - component: {fileID: 6197022109185722532}
   - component: {fileID: 8763368624093082700}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CoinText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5543,7 +5609,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2161814771626476426}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5570,6 +5636,81 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.000030518, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &3633933290135760145
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2968504149171377984}
+  - component: {fileID: 9012887187785508147}
+  - component: {fileID: 2622014232997547990}
+  m_Layer: 8
+  m_Name: PotionHeart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2968504149171377984
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3633933290135760145}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 910107203868432024}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 49.6214, y: 43.4827}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &9012887187785508147
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3633933290135760145}
+  m_CullTransparentMesh: 1
+--- !u!114 &2622014232997547990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3633933290135760145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 5152703318743566515, guid: 65fde6f01faacac459f0b2b1396e1aa8, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3779136875140736204
 GameObject:
   m_ObjectHideFlags: 0
@@ -5581,7 +5722,7 @@ GameObject:
   - component: {fileID: 416101725235008669}
   - component: {fileID: 2801020728068659216}
   - component: {fileID: 3903080097400784719}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CoinCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5658,7 +5799,7 @@ GameObject:
   - component: {fileID: 6744105139652608557}
   - component: {fileID: 9147824645836194305}
   - component: {fileID: 3542889583842169708}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5722,6 +5863,81 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &4220596166801999281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1666913020791722919}
+  - component: {fileID: 2734211933644730374}
+  - component: {fileID: 7108635493527395081}
+  m_Layer: 8
+  m_Name: PotionHeart (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1666913020791722919
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4220596166801999281}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 910107203868432024}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 49.6214, y: 43.4827}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2734211933644730374
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4220596166801999281}
+  m_CullTransparentMesh: 1
+--- !u!114 &7108635493527395081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4220596166801999281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 5152703318743566515, guid: 65fde6f01faacac459f0b2b1396e1aa8, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4651695083353096549
 GameObject:
   m_ObjectHideFlags: 0
@@ -5734,7 +5950,7 @@ GameObject:
   - component: {fileID: 8966909762655879273}
   - component: {fileID: 2307505602154636651}
   - component: {fileID: 8055713436447732840}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerStatsBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5756,6 +5972,7 @@ RectTransform:
   - {fileID: 7094586206487366914}
   - {fileID: 3665614702080377190}
   - {fileID: 416101725235008669}
+  - {fileID: 910107203868432024}
   m_Father: {fileID: 5006249118233636642}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5837,7 +6054,7 @@ GameObject:
   - component: {fileID: 7982422832967052929}
   - component: {fileID: 150544625445252772}
   - component: {fileID: 6812681529348259703}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5962,6 +6179,81 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &6140656804341886780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 585264340908380411}
+  - component: {fileID: 6424254028676028119}
+  - component: {fileID: 918943282188807328}
+  m_Layer: 8
+  m_Name: PotionHeart (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &585264340908380411
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140656804341886780}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 910107203868432024}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 49.6214, y: 43.4827}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6424254028676028119
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140656804341886780}
+  m_CullTransparentMesh: 1
+--- !u!114 &918943282188807328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140656804341886780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 5152703318743566515, guid: 65fde6f01faacac459f0b2b1396e1aa8, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6686774925812602024
 GameObject:
   m_ObjectHideFlags: 0
@@ -5971,7 +6263,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5006249118233636642}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: UIs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5994,6 +6286,81 @@ Transform:
   - {fileID: 6731684189872000810}
   m_Father: {fileID: 5622599940767710742}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6795897886020529616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6338152069220752669}
+  - component: {fileID: 8874651282769842314}
+  - component: {fileID: 2622388586550628002}
+  m_Layer: 8
+  m_Name: PotionHeart (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6338152069220752669
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6795897886020529616}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 910107203868432024}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 49.6214, y: 43.4827}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8874651282769842314
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6795897886020529616}
+  m_CullTransparentMesh: 1
+--- !u!114 &2622388586550628002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6795897886020529616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 5152703318743566515, guid: 65fde6f01faacac459f0b2b1396e1aa8, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7612588999144643385
 GameObject:
   m_ObjectHideFlags: 0
@@ -6005,7 +6372,7 @@ GameObject:
   - component: {fileID: 4770728321775923029}
   - component: {fileID: 1762493893145242431}
   - component: {fileID: 8766764000132871887}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jetpack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6215,7 +6582,7 @@ GameObject:
   - component: {fileID: 1403558393343906581}
   - component: {fileID: 324146885165088283}
   - component: {fileID: 2985199140366803022}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6292,6 +6659,7 @@ GameObject:
   - component: {fileID: 8531645353056655658}
   - component: {fileID: 6922069037665022140}
   - component: {fileID: 2108361719307064041}
+  - component: {fileID: 5326140311380927305}
   - component: {fileID: 2396576932832113813}
   - component: {fileID: 8777194743341876399}
   - component: {fileID: 5200960579016841918}
@@ -6299,7 +6667,7 @@ GameObject:
   - component: {fileID: 1916472243499780766}
   - component: {fileID: 41268606424373387}
   - component: {fileID: 7881662180442179958}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -6384,6 +6752,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   rb2D: {fileID: 3884714125470828964}
   currentGravitySource: {fileID: 0}
+  playerHealthBag: {fileID: 5326140311380927305}
+  playerWallet: {fileID: 8777194743341876399}
+  playerHealth: {fileID: 4918264228645845823}
+  playerDash: {fileID: 2108361719307064041}
   playerAnimation: {fileID: 7881662180442179958}
   currentSpeed: 0
   moveSpeed: 3.5
@@ -6392,12 +6764,13 @@ MonoBehaviour:
   longJumpEnergyDrainRate: 15
   shortJumpEnergyDrainRate: 17
   damageAmount: 100
-  bounceForceOnEnemy: 2
+  bounceForceOnEnemy: 5
   groundCheckPosition: {fileID: 3394814805484554808}
   groundCheckSize: {x: 0.37, y: 0.01}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  _isTeleporting: 0
 --- !u!114 &2108361719307064041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6419,6 +6792,30 @@ MonoBehaviour:
   canDash: 1
   isDashing: 0
   dashEnergyDrainRate: 35
+--- !u!114 &5326140311380927305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904893580147167373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd1e6c54cf23fb42a6ccf763ad286f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthBag
+  maxHealthPotion: 2
+  currentHealthPotion: 0
+  isBagFull: 0
+  minHealAmount: 5
+  maxHealAmount: 20
+  heartPotions:
+  - {fileID: 2622014232997547990}
+  - {fileID: 918943282188807328}
+  - {fileID: 7108635493527395081}
+  - {fileID: 2622388586550628002}
+  fullHeartPotion: {fileID: 5152703318743566515, guid: 65fde6f01faacac459f0b2b1396e1aa8, type: 3}
+  emptyHeartPotion: {fileID: -5579231603649062644, guid: 8690154d1edbb6e4682b475363770cd9, type: 3}
 --- !u!114 &2396576932832113813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6613,7 +7010,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
     m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
@@ -6637,7 +7034,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_ActionId: 852140f2-7766-474d-8707-702459ba45f3
     m_ActionName: 'Player/Interact[/Keyboard/e]'
   - m_PersistentCalls:
@@ -6657,7 +7054,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_ActionId: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
     m_ActionName: 'Player/Jump[/Keyboard/space]'
   - m_PersistentCalls:
@@ -6713,7 +7110,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_ActionId: 6b6ed059-55e3-4643-99bf-b7d596d18d0d
     m_ActionName: 'Player/JetPackController[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
@@ -6761,9 +7158,25 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_ActionId: 3a138bc7-5026-42c1-8c68-fe78b372e2f0
     m_ActionName: Player/Dash
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5326140311380927305}
+        m_TargetAssemblyTypeName: PlayerHealthBag, Assembly-CSharp
+        m_MethodName: UsePotion
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+    m_ActionId: 94c27b22-84ba-4966-8055-3a0543adefcf
+    m_ActionName: Player/UseHealthPotion
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -6801,7 +7214,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7094586206487366914}
   - component: {fileID: 4608729195990896758}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6890,7 +7303,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1777899404163368270}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}

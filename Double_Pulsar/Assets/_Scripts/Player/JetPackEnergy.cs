@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class JetPackEnergy : MonoBehaviour
 {
-    public static JetPackEnergy Instance;
-
     [Header("UI")]
     public Slider jetPackEnergyBar;
     public ParticleSystem sweat;
@@ -19,18 +17,6 @@ public class JetPackEnergy : MonoBehaviour
     [HideInInspector] public bool isRecharging = false;
     [HideInInspector] public bool isPlayerTired = false;
     private Coroutine rechargeCoroutine;
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     private void Start()
     {

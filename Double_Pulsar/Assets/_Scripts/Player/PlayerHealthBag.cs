@@ -37,12 +37,12 @@ public class PlayerHealthBag : MonoBehaviour
 
     public void UsePotion()
     {
-        if (currentHealthPotion > 0 && PlayerHealth.Instance.currentHealth < PlayerHealth.Instance.maxHealth)
+        if (currentHealthPotion > 0 && PlayerController.Instance.playerHealth.currentHealth < PlayerController.Instance.playerHealth.maxHealth)
         {
             currentHealthPotion--;
-            PlayerHealth.Instance.Heal(Random.Range(minHealAmount, maxHealAmount + 1));
+            PlayerController.Instance.playerHealth.Heal(Random.Range(minHealAmount, maxHealAmount + 1));
         }
-        else if(currentHealthPotion <= 0 || PlayerHealth.Instance.currentHealth == PlayerHealth.Instance.maxHealth)
+        else if(currentHealthPotion <= 0 || PlayerController.Instance.playerHealth.currentHealth == PlayerController.Instance.playerHealth.maxHealth)
         {
             Debug.Log("No health potions left! Or currentHealth is full!");
             return;

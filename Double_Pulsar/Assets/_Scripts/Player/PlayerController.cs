@@ -9,8 +9,11 @@ public class PlayerController : MonoBehaviour
     public GravitySource currentGravitySource;
 
     [Header("Component References")]
+    public JetPackEnergy jetPackEnergy;
     public PlayerHealthBag playerHealthBag;
     public PlayerWallet playerWallet;
+    public PlayerHealth playerHealth;
+    public PlayerDash playerDash;
 
     [Header("Animations")]
     public Animator playerAnimation;
@@ -36,6 +39,9 @@ public class PlayerController : MonoBehaviour
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
     public LayerMask groundLayer;
 
+    [Header("Teleportation Safety Check")]
+    [HideInInspector] public bool _isTeleporting = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -59,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerDash.Instance.isDashing || PlayerHealth.Instance.isBeingKnocked) return;
+        if (playerDash.isDashing || playerHealth.isBeingKnocked || _isTeleporting) return;
 
         HandleMoving();
         // HandleGravity();
@@ -160,7 +166,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
-        if (!PlayerHealth.Instance.isAlive) return;
+        if (!playerHealth.isAlive || _isTeleporting) return;
 
         _horizontalMovement = ctx.ReadValue<Vector2>().x;
 
@@ -176,19 +182,19 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext ctx)
     {
-        if (!PlayerHealth.Instance.isAlive) return;
+        if (!playerHealth.isAlive || _isTeleporting) return;
 
         if (ctx.started && IsGrounded())
         {
-            if (!JetPackEnergy.Instance.isEnergyEmpty)
+            if (!PlayerController.Instance.jetPackEnergy.isEnergyEmpty)
             {
                 rb2D.AddForce(transform.up * currentJumpForce, ForceMode2D.Impulse);
-                JetPackEnergy.Instance.DrainEnergy(longJumpEnergyDrainRate);
+                PlayerController.Instance.jetPackEnergy.DrainEnergy(longJumpEnergyDrainRate);
             }
-            else if(JetPackEnergy.Instance.isPlayerTired)
+            else if(PlayerController.Instance.jetPackEnergy.isPlayerTired)
             {
                 rb2D.AddForce(transform.up * currentJumpForce / 1.5f, ForceMode2D.Impulse);
-                JetPackEnergy.Instance.DrainEnergy(shortJumpEnergyDrainRate);
+                PlayerController.Instance.jetPackEnergy.DrainEnergy(shortJumpEnergyDrainRate);
             }
         }
         //else if (ctx.canceled && rb2D.linearVelocity.y > 0 && !JetPackEnergy.Instance.isEnergyEmpty)

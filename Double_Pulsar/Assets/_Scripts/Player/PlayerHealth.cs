@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public static PlayerHealth Instance;
-
     [Header("Health settings")]
     public float maxHealth = 100;
     [HideInInspector] public float currentHealth;
@@ -25,19 +23,6 @@ public class PlayerHealth : MonoBehaviour
     [Header("UI settings")]
     public Slider healthSlider;
     public float lerpSpeed = 0.25f;
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(Instance);
-            Debug.LogWarning("Multiple playerhealth instance detected, instance destroyed!");
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     private void Start()
     {
