@@ -22,10 +22,10 @@ public class MovingPlatform : MonoBehaviour
 
     public void MovePlatform()
     {
-        if(Vector2.Distance(transform.position, points[_i].position) < 0.02f)
+        if (Vector2.Distance(transform.position, points[_i].position) < 0.02f)
         {
             _i++;
-            if(_i == points.Length) // Check if the index reaches the array length
+            if (_i == points.Length) // Check if the index reaches the array length
             {
                 _i = 0; // reset to the first point
             }
@@ -37,11 +37,14 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        collision.transform.SetParent(transform);
+        if (collision.gameObject.TryGetComponent<PlayerController>(out PlayerController playerController))
+            playerController.transform.SetParent(transform);
+
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        collision.transform.SetParent(null);
+        if (collision.gameObject.TryGetComponent<PlayerController>(out PlayerController playerController))
+            playerController.transform.SetParent(null);
     }
 }
