@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8770672247298340183}
   - component: {fileID: 1795804864228855798}
   - component: {fileID: 4836267004962882924}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ PolygonCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1088
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 6892243725361868398}
   - component: {fileID: 5202388274979449153}
   - component: {fileID: 2729388815577878810}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ArrowBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArrowBody
   damage: 15
-  knockBack: 2
+  knockBack: 1
 --- !u!212 &8138179525770127713
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -317,7 +317,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1088
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -362,7 +362,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
