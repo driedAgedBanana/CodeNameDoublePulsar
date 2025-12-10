@@ -364,5 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97b18155edcefdf42a5c02a32e1875dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DoorSwitchScene
-  eIcon: {fileID: 3230154713897457929}
   _destination: {fileID: 0}
+  eIcon: {fileID: 3230154713897457929}
+  blackTransitionPanel: {fileID: 0}
+  transitionTime: 0.8

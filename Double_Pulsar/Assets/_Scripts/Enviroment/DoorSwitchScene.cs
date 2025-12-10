@@ -35,10 +35,14 @@ public class DoorSwitchScene : MonoBehaviour, IPlayerInteract
     {
         if (collision.TryGetComponent<PlayerController>(out PlayerController controller))
         {
-            if (controller == playerController)
-                playerController = null;
+            if (controller._isTeleporting) return;
+            else
+            {
+                if (controller == playerController)
+                    playerController = null;
 
-            eIcon.enabled = false;
+                eIcon.enabled = false;
+            }
         }
     }
 
@@ -51,6 +55,7 @@ public class DoorSwitchScene : MonoBehaviour, IPlayerInteract
 
     private IEnumerator TeleportationTransition(float duration)
     {
+        playerController.transform.SetParent(transform);
         playerController._isTeleporting = true;
         float elapsedTime = 0f;
 
@@ -78,6 +83,7 @@ public class DoorSwitchScene : MonoBehaviour, IPlayerInteract
             yield return null;
         }
         blackTransitionPanel.alpha = 0f;
+        playerController.transform.SetParent(null);
 
     }
 }

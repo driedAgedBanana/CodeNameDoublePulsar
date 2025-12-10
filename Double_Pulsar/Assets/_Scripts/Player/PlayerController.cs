@@ -67,11 +67,21 @@ public class PlayerController : MonoBehaviour
     {
         if (playerDash.isDashing || playerHealth.isBeingKnocked || _isTeleporting) return;
 
-        HandleMoving();
-        // HandleGravity();
+        if(_isTeleporting)
+        {
+            _horizontalMovement = 0f;
+            jumpForce = 0f;
+            return;
+        }
 
-        playerAnimation.SetBool("isJumping", !IsGrounded());
-        playerAnimation.SetFloat("xVelocity", Mathf.Abs(_horizontalMovement));
+        else
+        {
+            HandleMoving();
+            // HandleGravity();
+
+            playerAnimation.SetBool("isJumping", !IsGrounded());
+            playerAnimation.SetFloat("xVelocity", Mathf.Abs(_horizontalMovement));
+        }
     }
 
     private void FixedUpdate()
@@ -121,7 +131,7 @@ public class PlayerController : MonoBehaviour
 
     public void HandleMoving()
     {
-        if (currentGravitySource != null)
+        if (currentGravitySource != null && !_isTeleporting)
         {
             // Direction towards the center of asteroid
             Vector2 gravityDirection = ((Vector2)currentGravitySource.transform.position - rb2D.position).normalized;
@@ -166,9 +176,15 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
-        if (!playerHealth.isAlive || _isTeleporting) return;
+        if (!playerHealth.isAlive) return;
 
         _horizontalMovement = ctx.ReadValue<Vector2>().x;
+
+        if (_isTeleporting)
+        {
+            _horizontalMovement = 0f;
+            return;
+        }
 
         if (_horizontalMovement > 0 && !_isFacingRight)
         {
@@ -182,7 +198,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext ctx)
     {
-        if (!playerHealth.isAlive || _isTeleporting) return;
+        if (!playerHealth.isAlive) return;
+
+        if (_isTeleporting)
+        {
+            jumpForce = 0f;
+            return;
+        }
 
         if (ctx.started && IsGrounded())
         {
