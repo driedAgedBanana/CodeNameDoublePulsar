@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class EnemiesHealth : MonoBehaviour
 {
+    [Header("Health Settings")]
+    public float maxHealth;
+    public float currentHealth;
+
     [Header("General references")]
     public Animator enemyAnimator;
     public SpriteRenderer enemySprite;
@@ -19,7 +23,8 @@ public class EnemiesHealth : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        SharedHealthManager.Instance.Register(this);
+        //SharedHealthManager.Instance.Register(this);
+        currentHealth = maxHealth;
         enemySprite = GetComponent<SpriteRenderer>();
         isAlive = SharedHealthManager.Instance.isAlive;
         deadSmokeEffect = GetComponentInChildren<ParticleSystem>();
@@ -27,7 +32,12 @@ public class EnemiesHealth : MonoBehaviour
 
     public void ApplyDamage(float amount)
     {
-        SharedHealthManager.Instance.TakeDamage(amount);
+        //SharedHealthManager.Instance.TakeDamage(amount);
+        currentHealth -= amount;
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     public void Die()

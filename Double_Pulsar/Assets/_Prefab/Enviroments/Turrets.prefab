@@ -168,11 +168,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64b327215065e8c479acf5078ce71dcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurretShooter
-  arrowPrefab: {fileID: 0}
-  launchPoint: {fileID: 0}
-  launchForce: 0
+  arrowPrefab: {fileID: 8063346601418827051, guid: 63f3b462cf232b2418378a1e2947847a, type: 3}
+  launchPoint: {fileID: 8982295893002062277}
+  launchForce: 15
   maxTimer: 3
-  cooldown: 0
 --- !u!212 &5380766918937449832
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -4969,6 +4969,7 @@ GameObject:
   - component: {fileID: 2156675947492946240}
   - component: {fileID: 423200635246672074}
   - component: {fileID: 3244839183983626541}
+  - component: {fileID: 7535003533453978081}
   - component: {fileID: 7713098768399927195}
   - component: {fileID: 6573501976973222971}
   - component: {fileID: 7138355947797253327}
@@ -5009,7 +5010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c14601b45a57286449292f4fe283b294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemies
-  enemyHealth: {fileID: 0}
+  enemyHealth: {fileID: 2156675947492946240}
   player: {fileID: 0}
   groundDetection: {fileID: 6801978505405094655}
   detectionRange: 5
@@ -5024,9 +5025,9 @@ MonoBehaviour:
   obstacleLayers:
     serializedVersion: 2
     m_Bits: 200
-  attackCollider: {fileID: 0}
+  attackCollider: {fileID: 6573501976973222971}
   attackDamage: 10
-  attackKnockback: 3
+  attackKnockback: 4
 --- !u!114 &2156675947492946240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5039,15 +5040,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a03d94843043914a8321a5bf5a0f07a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesHealth
+  maxHealth: 100
+  currentHealth: 0
   enemyAnimator: {fileID: 7138355947797253327}
   enemySprite: {fileID: 3244839183983626541}
   isAlive: 0
   deadSmokeEffect: {fileID: 8044637514946809585}
   itemDropChance:
   - item: {fileID: 11400000, guid: 74ca45a500ddb23439479cdb202687df, type: 2}
-    dropChancePercentage: 40
+    dropChancePercentage: 45
   - item: {fileID: 11400000, guid: 5ed97de4ba177a545a1e37d907760c94, type: 2}
-    dropChancePercentage: 20
+    dropChancePercentage: 30
   minItemsToDrop: 0
   maxItemsToDrop: 1
   dropForce: 2
@@ -5086,7 +5089,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.4}
-  m_Size: {x: 0.98, y: 0.02}
+  m_Size: {x: 0.46, y: 0.019999983}
   m_Direction: 1
 --- !u!212 &3244839183983626541
 SpriteRenderer:
@@ -5146,6 +5149,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &7535003533453978081
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8070582066397260069}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -0.3437871}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.18, y: 0.7}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.40896454, y: 0.01242584}
+  m_EdgeRadius: 0
 --- !u!50 &7713098768399927195
 Rigidbody2D:
   serializedVersion: 5
@@ -5203,7 +5252,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

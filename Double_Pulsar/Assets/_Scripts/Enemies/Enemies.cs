@@ -53,7 +53,7 @@ public class Enemies : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!enemyHealth.isAlive) return;
+        if (!enemyHealth.isAlive) return;
 
         // Determine distance between enemy and player
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
@@ -114,11 +114,17 @@ public class Enemies : MonoBehaviour
         transform.localScale = localScale;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+        if (collision.gameObject.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
         {
             playerHealth.TakeDamage(attackDamage, transform.position, attackKnockback);
         }
     }
+
 }
