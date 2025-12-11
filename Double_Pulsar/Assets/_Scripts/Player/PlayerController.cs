@@ -42,7 +42,9 @@ public class PlayerController : MonoBehaviour
     [Header("Teleportation Safety Check")]
     [HideInInspector] public bool _isTeleporting = false;
 
-    private Vector2 _externalVelocity;
+    [Header("Moving platform")]
+    public bool isOnPlatform;
+    public Rigidbody2D platformRB;
 
     private void Awake()
     {
@@ -69,9 +71,6 @@ public class PlayerController : MonoBehaviour
     {
         if (playerDash.isDashing || playerHealth.isBeingKnocked || _isTeleporting) return;
 
-        Vector2 inputVelocity = new Vector2(_horizontalMovement * moveSpeed, rb2D.linearVelocity.y);
-        rb2D.linearVelocity = inputVelocity + _externalVelocity;
-
         if (_isTeleporting)
         {
             _horizontalMovement = 0f;
@@ -91,21 +90,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // playerAnimation.SetFloat("yVelocity", Mathf.Abs(rb2D.linearVelocity.y));
-    }
 
-    //private void HandleGravity()
-    //{
-    //    if (rb2D.linearVelocity.y < 0)
-    //    {
-    //        rb2D.gravityScale = _currentStandardGravity * fallSpeedMultiplier; // Fall increasingly faster
-    //        rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, Mathf.Max(rb2D.linearVelocity.y, -maxFallSpeed)); // Cap the fall speed
-    //    }
-    //    else
-    //    {
-    //        rb2D.gravityScale = _currentStandardGravity;
-    //    }
-    //}
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -114,18 +100,6 @@ public class PlayerController : MonoBehaviour
             enemyHealth.ApplyDamage(damageAmount);
             rb2D.AddForce(transform.up * bounceForceOnEnemy, ForceMode2D.Impulse);
         }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.TryGetComponent<MovingPlatform>(out MovingPlatform platform))
-            _externalVelocity = platform.PlatformVelocity / Time.deltaTime;
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.TryGetComponent<MovingPlatform>(out MovingPlatform platform))
-            _externalVelocity = Vector2.zero;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -159,7 +133,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            rb2D.linearVelocity = new Vector2(_horizontalMovement * currentSpeed, rb2D.linearVelocity.y);
+            if (isOnPlatform)
+            {
+                rb2D.linearVelocity = new Vector2(_horizontalMovement + platformRB.linearVelocity.x * currentSpeed, rb2D.linearVelocity.y);
+            }
+
+            else
+            {
+                rb2D.linearVelocity = new Vector2(_horizontalMovement * currentSpeed, rb2D.linearVelocity.y);
+            }
         }
     }
 
@@ -230,17 +212,12 @@ public class PlayerController : MonoBehaviour
                 rb2D.AddForce(transform.up * currentJumpForce, ForceMode2D.Impulse);
                 PlayerController.Instance.jetPackEnergy.DrainEnergy(longJumpEnergyDrainRate);
             }
-            else if(PlayerController.Instance.jetPackEnergy.isPlayerTired)
+            else if (PlayerController.Instance.jetPackEnergy.isPlayerTired)
             {
                 rb2D.AddForce(transform.up * currentJumpForce / 1.5f, ForceMode2D.Impulse);
                 PlayerController.Instance.jetPackEnergy.DrainEnergy(shortJumpEnergyDrainRate);
             }
         }
-        //else if (ctx.canceled && rb2D.linearVelocity.y > 0 && !JetPackEnergy.Instance.isEnergyEmpty)
-        //{
-        //    rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, rb2D.linearVelocity.y * 0.5f);
-        //    JetPackEnergy.Instance.DrainEnergy(shortJumpEnergyDrainRate);
-        //}
     }
 
     #endregion

@@ -2,58 +2,69 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
-    public float moveSpeed;
-    public int startingPoint;
-    public Transform[] points;
+    public Transform posA, posB;
+    public float speed;
+    private Vector3 _targetPosition;
 
-    public Vector2 PlatformVelocity { get; private set; }
-    private Vector2 _lastPos;
+    private Rigidbody2D _rb;
+    private Vector3 _moveDirection;
 
-    private int _i;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
-        transform.position = points[startingPoint].position;
+        _rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void Start()
     {
-        MovePlatform();
+        _targetPosition = posB.position;
+        DirectionCalculate();
     }
 
-    void LateUpdate()
+    private void Update()
     {
-        PlatformVelocity = (Vector2)transform.position - _lastPos;
-        _lastPos = transform.position;
+        MoveBetweenPoints();
     }
 
-    public void MovePlatform()
+    private void FixedUpdate()
     {
-        if (Vector2.Distance(transform.position, points[_i].position) < 0.02f)
+        _rb.linearVelocity = _moveDirection * speed;
+    }
+
+    private void MoveBetweenPoints()
+    {
+        if(Vector2.Distance(transform.position, posA.position) < 0.05f)
         {
-            _i++;
-            if (_i == points.Length) // Check if the index reaches the array length
-            {
-                _i = 0; // reset to the first point
-            }
+            _targetPosition = posB.position;
+            DirectionCalculate();
         }
 
-        // Moving the platform towards the target point within the index i
-        transform.position = Vector2.MoveTowards(transform.position, points[_i].position, moveSpeed * Time.deltaTime);
+        if (Vector2.Distance(transform.position, posB.position) < 0.05f)
+        {
+            _targetPosition = posA.position;
+            DirectionCalculate();
+        }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void DirectionCalculate()
     {
-        if (collision.gameObject.TryGetComponent<PlayerController>(out PlayerController playerController))
-            playerController.transform.SetParent(transform);
-
+        _moveDirection = (_targetPosition - transform.position).normalized;
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<PlayerController>(out PlayerController playerController))
-            playerController.transform.SetParent(null);
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            PlayerController.Instance.isOnPlatform = true;
+            PlayerController.Instance.platformRB = _rb;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerController.Instance.isOnPlatform = false;
+        }
     }
 }
