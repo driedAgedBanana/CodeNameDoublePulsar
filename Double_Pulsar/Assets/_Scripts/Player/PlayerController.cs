@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
     [Header("Teleportation Safety Check")]
     [HideInInspector] public bool _isTeleporting = false;
 
+    private Vector2 _externalVelocity;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -67,7 +69,10 @@ public class PlayerController : MonoBehaviour
     {
         if (playerDash.isDashing || playerHealth.isBeingKnocked || _isTeleporting) return;
 
-        if(_isTeleporting)
+        Vector2 inputVelocity = new Vector2(_horizontalMovement * moveSpeed, rb2D.linearVelocity.y);
+        rb2D.linearVelocity = inputVelocity + _externalVelocity;
+
+        if (_isTeleporting)
         {
             _horizontalMovement = 0f;
             jumpForce = 0f;
@@ -109,6 +114,18 @@ public class PlayerController : MonoBehaviour
             enemyHealth.ApplyDamage(damageAmount);
             rb2D.AddForce(transform.up * bounceForceOnEnemy, ForceMode2D.Impulse);
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<MovingPlatform>(out MovingPlatform platform))
+            _externalVelocity = platform.PlatformVelocity / Time.deltaTime;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<MovingPlatform>(out MovingPlatform platform))
+            _externalVelocity = Vector2.zero;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

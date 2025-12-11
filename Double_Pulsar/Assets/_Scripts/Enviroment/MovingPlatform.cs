@@ -6,6 +6,9 @@ public class MovingPlatform : MonoBehaviour
     public int startingPoint;
     public Transform[] points;
 
+    public Vector2 PlatformVelocity { get; private set; }
+    private Vector2 _lastPos;
+
     private int _i;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,6 +21,12 @@ public class MovingPlatform : MonoBehaviour
     void Update()
     {
         MovePlatform();
+    }
+
+    void LateUpdate()
+    {
+        PlatformVelocity = (Vector2)transform.position - _lastPos;
+        _lastPos = transform.position;
     }
 
     public void MovePlatform()
