@@ -133,15 +133,12 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (isOnPlatform)
-            {
-                rb2D.linearVelocity = new Vector2(_horizontalMovement + platformRB.linearVelocity.x * currentSpeed, rb2D.linearVelocity.y);
-            }
+            float platformX = isOnPlatform ? platformRB.linearVelocity.x : 0f;
 
-            else
-            {
-                rb2D.linearVelocity = new Vector2(_horizontalMovement * currentSpeed, rb2D.linearVelocity.y);
-            }
+            rb2D.linearVelocity = new Vector2(
+                _horizontalMovement * currentSpeed + platformX,
+                rb2D.linearVelocity.y
+            );
         }
     }
 
