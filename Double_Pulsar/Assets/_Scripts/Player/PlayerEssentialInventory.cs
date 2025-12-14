@@ -1,9 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections.Generic;
 
-public class PlayerHealthBag : MonoBehaviour
+public class PlayerEssentialInventory : MonoBehaviour
 {
+    [Header("HEALTH POTION SYSTEM")]
+
     [Header("Health Potion Settings")]
     public int maxHealthPotion = 2;
     [HideInInspector] public int currentHealthPotion;
@@ -18,10 +22,20 @@ public class PlayerHealthBag : MonoBehaviour
     public Sprite fullHeartPotion;
     public Sprite emptyHeartPotion;
 
+    [Space]
+
+    [Header("PLAYER COLLECT COIN SYSTEM")]
+
+    [Header("UI Elements")]
+    public TextMeshProUGUI coinText;
+    private int _coinCount = 0;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentHealthPotion = 0;
+        UpdateCoinText();
     }
 
     // Update is called once per frame
@@ -35,6 +49,7 @@ public class PlayerHealthBag : MonoBehaviour
         isBagFull = currentHealthPotion >= maxHealthPotion;
     }
 
+    #region HEALTH POTION SECTION
     public void UsePotion()
     {
         if (currentHealthPotion > 0 && PlayerController.Instance.playerHealth.currentHealth < PlayerController.Instance.playerHealth.maxHealth)
@@ -42,7 +57,7 @@ public class PlayerHealthBag : MonoBehaviour
             currentHealthPotion--;
             PlayerController.Instance.playerHealth.Heal(Random.Range(minHealAmount, maxHealAmount + 1));
         }
-        else if(currentHealthPotion <= 0 || PlayerController.Instance.playerHealth.currentHealth == PlayerController.Instance.playerHealth.maxHealth)
+        else if (currentHealthPotion <= 0 || PlayerController.Instance.playerHealth.currentHealth == PlayerController.Instance.playerHealth.maxHealth)
         {
             Debug.Log("No health potions left! Or currentHealth is full!");
             return;
@@ -70,7 +85,7 @@ public class PlayerHealthBag : MonoBehaviour
                 heartPotions[i].sprite = emptyHeartPotion;
             }
 
-            if(i < maxHealthPotion)
+            if (i < maxHealthPotion)
             {
                 heartPotions[i].enabled = true;
             }
@@ -88,4 +103,31 @@ public class PlayerHealthBag : MonoBehaviour
             UsePotion();
         }
     }
+
+    #endregion
+
+    #region COINS SECTION
+
+    public void AddCoins(int amount)
+    {
+        _coinCount += amount;
+        UpdateCoinText();
+    }
+
+    public void RemoveCoins(int amount)
+    {
+        _coinCount -= amount;
+        if (_coinCount < 0)
+        {
+            _coinCount = 0;
+        }
+        UpdateCoinText();
+    }
+
+    private void UpdateCoinText()
+    {
+        coinText.text = _coinCount.ToString();
+    }
+
+    #endregion
 }

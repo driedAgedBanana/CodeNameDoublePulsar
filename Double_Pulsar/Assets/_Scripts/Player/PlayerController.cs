@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,29 +12,39 @@ public class PlayerController : MonoBehaviour
 
     [Header("Component References")]
     public JetPackEnergy jetPackEnergy;
-    public PlayerHealthBag playerHealthBag;
-    public PlayerWallet playerWallet;
+    public PlayerEssentialInventory inventory;
     public PlayerHealth playerHealth;
-    public PlayerDash playerDash;
 
     [Header("Animations")]
     public Animator playerAnimation;
 
     [Header("Movements")]
-    [HideInInspector] public float currentSpeed;
     public float moveSpeed;
+    [HideInInspector] public float currentSpeed;
     private float _horizontalMovement;
     private bool _isFacingRight = true;
 
     [Header("Jumping")]
-    [HideInInspector] public float currentJumpForce;
     public float jumpForce;
+    [HideInInspector] public float currentJumpForce;
     public float longJumpEnergyDrainRate = 2;
     public float shortJumpEnergyDrainRate = 2;
+
+    [Header("Dash Settings")]
+    public float dashForce = 20f;
+    [HideInInspector] public float currentDashForce;
+    public float dashDuration = 0.2f;
+    public float dashCooldown = 1f;
+    public TrailRenderer dashTrail;
+    [HideInInspector] public bool canDash;
+    [HideInInspector] public bool isDashing;
+    public float dashEnergyDrainRate = 3.5f;
+    public BoxCollider2D invincibleDashCollider;
 
     [Header("Dealing damage on enemies")]
     public int damageAmount = 100;
     public int bounceForceOnEnemy = 10;
+    private CinemachineImpulseSource impulseSource;
 
     [Header("Ground Check")]
     public Transform groundCheckPosition;
@@ -40,7 +52,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
 
     [Header("Teleportation Safety Check")]
-    [HideInInspector] public bool _isTeleporting = false;
+    public bool _isTeleporting = false;
 
     [Header("Moving platform")]
     public bool isOnPlatform;
@@ -65,11 +77,23 @@ public class PlayerController : MonoBehaviour
 
         currentSpeed = moveSpeed;
         currentJumpForce = jumpForce;
+
+        dashTrail = GetComponentInChildren<TrailRenderer>();
+        dashTrail.emitting = false;
+        currentDashForce = dashForce;
+        canDash = true;
+
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+
+        if(invincibleDashCollider != null)
+        {
+            invincibleDashCollider.enabled = false;
+        }
     }
 
     private void Update()
     {
-        if (playerDash.isDashing || playerHealth.isBeingKnocked || _isTeleporting) return;
+        if (isDashing || playerHealth.isBeingKnocked || _isTeleporting) return;
 
         if (_isTeleporting)
         {
@@ -88,40 +112,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemyHealth))
-        {
-            enemyHealth.ApplyDamage(damageAmount);
-            rb2D.AddForce(transform.up * bounceForceOnEnemy, ForceMode2D.Impulse);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.TryGetComponent<GravitySource>(out GravitySource gravitySource))
-        {
-            currentGravitySource = gravitySource;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.TryGetComponent(out GravitySource gravitySource) && gravitySource == currentGravitySource)
-        {
-            currentGravitySource = null;
-        }
-
-        return;
-    }
-
     public void HandleMoving()
     {
+        if (isDashing) return;
+
         if (currentGravitySource != null && !_isTeleporting)
         {
             // Direction towards the center of asteroid
@@ -139,6 +133,47 @@ public class PlayerController : MonoBehaviour
                 _horizontalMovement * currentSpeed + platformX,
                 rb2D.linearVelocity.y
             );
+        }
+    }
+
+    private IEnumerator StartDash()
+    {
+        if(jetPackEnergy.currentEnergy > 0 && !playerHealth.isBeingKnocked)
+        {
+            canDash = false;
+            isDashing = true;
+            float originalGravity = rb2D.gravityScale;
+            rb2D.gravityScale = 0f;
+            invincibleDashCollider.enabled = true;
+            rb2D.linearVelocity = new Vector2(transform.localScale.x * currentDashForce, 0f);
+            jetPackEnergy.DrainEnergy(dashEnergyDrainRate);
+            dashTrail.emitting = true;
+
+            yield return new WaitForSeconds(dashDuration);
+
+            dashTrail.emitting = false;
+            rb2D.gravityScale = originalGravity;
+            isDashing = false;
+            invincibleDashCollider.enabled = false;
+            yield return new WaitForSeconds(dashCooldown);
+            canDash = true;
+
+            while(isDashing)
+            {
+                if(jetPackEnergy.currentEnergy <= 0 || playerHealth.isBeingKnocked)
+                {
+                    isDashing = false;
+                    dashTrail.emitting = false;
+                    rb2D.gravityScale = originalGravity;
+                    invincibleDashCollider.enabled = false;
+                    yield break;
+                }
+                yield return null;
+            }
+        }
+        else
+        {
+            yield break;
         }
     }
 
@@ -167,6 +202,45 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawCube(groundCheckPosition.position, groundCheckSize);
     }
+
+    #region Collisions
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemyHealth))
+        {
+            enemyHealth.ApplyDamage(damageAmount);
+            rb2D.AddForce(transform.up * bounceForceOnEnemy, ForceMode2D.Impulse);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<GravitySource>(out GravitySource gravitySource))
+        {
+            currentGravitySource = gravitySource;
+        }
+
+        if(collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemiesHealth))
+        {
+            if(invincibleDashCollider.enabled)
+            {
+                GameManager.Instance.CameraShake(impulseSource);
+                enemiesHealth.Die();
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out GravitySource gravitySource) && gravitySource == currentGravitySource)
+        {
+            currentGravitySource = null;
+        }
+
+        return;
+    }
+
+    #endregion
 
     #region Inputs
 
@@ -214,6 +288,16 @@ public class PlayerController : MonoBehaviour
                 rb2D.AddForce(transform.up * currentJumpForce / 1.5f, ForceMode2D.Impulse);
                 PlayerController.Instance.jetPackEnergy.DrainEnergy(shortJumpEnergyDrainRate);
             }
+        }
+    }
+
+    public void OnDash(InputAction.CallbackContext ctx)
+    {
+        if (!playerHealth.isAlive || playerHealth.isBeingKnocked) return;
+
+        if (ctx.performed && canDash && !jetPackEnergy.isEnergyEmpty)
+        {
+            StartCoroutine(StartDash());
         }
     }
 

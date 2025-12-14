@@ -6,21 +6,21 @@ public class LiquidToxins : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.TryGetComponent<PlayerController>(out PlayerController player) && collision.gameObject.TryGetComponent<PlayerDash>(out PlayerDash playerDash))
+        if(collision.gameObject.TryGetComponent<PlayerController>(out PlayerController player))
         {
             player.currentSpeed /= slowAmount;
             player.currentJumpForce /= slowAmount;
-            playerDash.currentDashForce /= slowAmount;
+            player.currentDashForce /= slowAmount;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<PlayerController>(out PlayerController player) && collision.gameObject.TryGetComponent<PlayerDash>(out PlayerDash playerDash))
+        if (collision.gameObject.TryGetComponent<PlayerController>(out PlayerController player))
         {
             player.currentSpeed = player.moveSpeed;
             player.currentJumpForce = player.jumpForce;
-            playerDash.currentDashForce = playerDash.dashForce;
+            player.currentDashForce = player.dashForce;
         }
     }
 }

@@ -58,6 +58,9 @@ public class PlayerHealth : MonoBehaviour
 
             currentHealth -= damage;
 
+            isBeingKnocked = true;
+            StartCoroutine(StopMovementOnKnockBack(knockbackDuration));
+
             if(knockBackForce >= 0)
             {
                 // Apply knockback
@@ -69,10 +72,9 @@ public class PlayerHealth : MonoBehaviour
                 rb2D.AddForce(hitDir * knockBackForce, ForceMode2D.Impulse);
             }
 
+
             StartCoroutine(HandleIFrame());
 
-            isBeingKnocked = true;
-            StartCoroutine(StopMovementOnKnockBack(knockbackDuration));
         }
     }
 

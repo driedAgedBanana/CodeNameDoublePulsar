@@ -4973,6 +4973,7 @@ GameObject:
   - component: {fileID: 6573501976973222971}
   - component: {fileID: 7138355947797253327}
   - component: {fileID: 2968794266764192616}
+  - component: {fileID: 441247886242550591}
   m_Layer: 6
   m_Name: Enemies_Snail
   m_TagString: Untagged
@@ -5042,6 +5043,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemiesHealth
   maxHealth: 100
   currentHealth: 0
+  groundCollider: {fileID: 2968794266764192616}
+  rb2D: {fileID: 7713098768399927195}
   enemyAnimator: {fileID: 7138355947797253327}
   enemySprite: {fileID: 3244839183983626541}
   isAlive: 0
@@ -5050,7 +5053,7 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: 74ca45a500ddb23439479cdb202687df, type: 2}
     dropChancePercentage: 40
   - item: {fileID: 11400000, guid: 5ed97de4ba177a545a1e37d907760c94, type: 2}
-    dropChancePercentage: 20
+    dropChancePercentage: 60
   minItemsToDrop: 0
   maxItemsToDrop: 1
   dropForce: 2
@@ -5172,7 +5175,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -5281,3 +5284,56 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.2194848, y: 0.0039024353}
   m_EdgeRadius: 0
+--- !u!114 &441247886242550591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8070582066397260069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Cinemachine::Cinemachine.CinemachineImpulseSource
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_ImpulseShape: 1
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.2
+    m_ImpulseType: 0
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: 0, y: 0, z: -1}

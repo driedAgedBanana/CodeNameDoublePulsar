@@ -24,7 +24,7 @@ public class CoinItem : ItemBase
 
     public override void OnCollect(PlayerController player)
     {
-        player.playerWallet.AddCoins(coinValue);
+        player.inventory.AddCoins(coinValue);
         Destroy(gameObject);
     }
 }
