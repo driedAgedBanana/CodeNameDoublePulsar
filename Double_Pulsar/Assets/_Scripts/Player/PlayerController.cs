@@ -204,16 +204,22 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Collisions
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemyHealth))
         {
-            enemyHealth.ApplyDamage(damageAmount);
             rb2D.AddForce(transform.up * bounceForceOnEnemy, ForceMode2D.Impulse);
+            enemyHealth.ApplyDamage(damageAmount);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.TryGetComponent<GravitySource>(out GravitySource gravitySource))
         {
@@ -280,12 +286,12 @@ public class PlayerController : MonoBehaviour
             if (!jetPackEnergy.isEnergyEmpty)
             {
                 rb2D.AddForce(transform.up * currentJumpForce, ForceMode2D.Impulse);
-                PlayerController.Instance.jetPackEnergy.DrainEnergy(longJumpEnergyDrainRate);
+                jetPackEnergy.DrainEnergy(longJumpEnergyDrainRate);
             }
             else if (PlayerController.Instance.jetPackEnergy.isPlayerTired)
             {
                 rb2D.AddForce(transform.up * currentJumpForce / 1.5f, ForceMode2D.Impulse);
-                PlayerController.Instance.jetPackEnergy.DrainEnergy(shortJumpEnergyDrainRate);
+                jetPackEnergy.DrainEnergy(shortJumpEnergyDrainRate);
             }
         }
     }

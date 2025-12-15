@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
     public float knockbackDuration = 0.2f;
     public Rigidbody2D rb2D;
     [HideInInspector] public bool isBeingKnocked = false;
+    private CinemachineImpulseSource hitImpulseSource;
 
     [Header("i-Frame")]
     public float invulnerabilityDuration = 1f;
@@ -30,6 +32,8 @@ public class PlayerHealth : MonoBehaviour
         rb2D = GetComponent<Rigidbody2D>();
         playerSprite = GetComponent<SpriteRenderer>();
         UpdateHealthSlider();
+
+        hitImpulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     private void Update()
@@ -55,11 +59,12 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             if (_isInvulnerable) return;
-
-            currentHealth -= damage;
-
+            
             isBeingKnocked = true;
             StartCoroutine(StopMovementOnKnockBack(knockbackDuration));
+
+            currentHealth -= damage;
+            GameManager.Instance.shakeManager.CameraShake(hitImpulseSource);
 
             if(knockBackForce >= 0)
             {

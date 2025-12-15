@@ -8,8 +8,6 @@ public class EnemiesHealth : MonoBehaviour
     [Header("Health Settings")]
     public float maxHealth;
     public float currentHealth;
-    public BoxCollider2D groundCollider;
-    public Rigidbody2D rb2D;
     [SerializeField] private ScreenShakeProfile profile;
     private CinemachineImpulseSource hitImpulseSource;  
 
@@ -34,12 +32,6 @@ public class EnemiesHealth : MonoBehaviour
         isAlive = SharedHealthManager.Instance.isAlive;
         deadSmokeEffect = GetComponentInChildren<ParticleSystem>();
         hitImpulseSource = GetComponent<CinemachineImpulseSource>();
-
-        if (isAlive)
-        {
-            groundCollider.enabled = true;
-            rb2D.gravityScale = 1f;
-        }
     }
 
     public void ApplyDamage(float amount)
@@ -61,8 +53,6 @@ public class EnemiesHealth : MonoBehaviour
         enemyAnimator.SetBool("isDead", true);
         enemySprite.color = Color.red;
         deadSmokeEffect.Play();
-        groundCollider.enabled = false;
-        rb2D.gravityScale = 0f;
 
         StartCoroutine(DeathSequence());
     }

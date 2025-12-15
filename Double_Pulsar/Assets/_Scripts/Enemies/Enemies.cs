@@ -114,16 +114,16 @@ public class Enemies : MonoBehaviour
         transform.localScale = localScale;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            playerHealth.TakeDamage(attackDamage, transform.position, attackKnockback);
+            PlayerController.Instance.playerHealth.TakeDamage(attackDamage, transform.position, attackKnockback);
         }
     }
 
