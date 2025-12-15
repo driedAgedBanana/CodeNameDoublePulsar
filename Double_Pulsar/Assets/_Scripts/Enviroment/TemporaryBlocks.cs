@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TemporaryBlocks : MonoBehaviour
@@ -7,9 +8,32 @@ public class TemporaryBlocks : MonoBehaviour
     public float moveSpeed = 2f;
     public float waitTime = 5f;
     [Space]
+    public BoxCollider2D platformCollider;
     public Rigidbody2D platformRB;
+    public SpriteRenderer platformRenderer;
+    private Color platformColour;
     public float fallDelay = 1f;
     private bool _isFalling = false;
+
+    [SerializeField] private float transitionSpeed;
+
+    private void Start()
+    {
+        platformCollider = GetComponent<BoxCollider2D>();
+        platformRenderer = GetComponent<SpriteRenderer>();
+
+        platformCollider.enabled = true;
+
+        // Grab current color (this includes alpha)
+        platformColour = platformRenderer.color;
+
+        // Read alpha
+        float currentAlpha = platformColour.a;
+
+        platformColour.a = 1f;
+        platformRenderer.color = platformColour;
+    }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -29,6 +53,9 @@ public class TemporaryBlocks : MonoBehaviour
         yield return new WaitForSeconds(fallDelay);
 
         platformRB.bodyType = RigidbodyType2D.Dynamic;
+        platformRB.gravityScale = 1f;
+
+        StartCoroutine(FadeAlpha(1f, 0f, transitionSpeed));
 
         if(_isFalling)
         {
@@ -39,6 +66,8 @@ public class TemporaryBlocks : MonoBehaviour
     private IEnumerator MoveBackToOriginalPosition()
     {
         // Wait before moving back
+        platformCollider.enabled = false;
+
         yield return new WaitForSeconds(waitTime);
 
         // Make the platform rise
@@ -54,10 +83,32 @@ public class TemporaryBlocks : MonoBehaviour
         }
 
         // Snap into place to be safe
+        StartCoroutine(FadeAlpha(0f, 1f, transitionSpeed));
         transform.position = originalPosition.transform.position;
 
         // Reset falling state
         _isFalling = false;
+        platformCollider.enabled = true;
+    }
+
+    private IEnumerator FadeAlpha(float startAlpha, float targetAlpha, float duration)
+    {
+        float elapsed = 0f;
+        Color alpha = platformRenderer.color;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float time = elapsed / duration;
+
+            alpha.a = Mathf.Lerp(startAlpha, targetAlpha, time);
+            platformRenderer.color = alpha;
+
+            yield return null;
+        }
+
+        alpha.a = targetAlpha;
+        platformRenderer.color = alpha;
     }
 
 }
