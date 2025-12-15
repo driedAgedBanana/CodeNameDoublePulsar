@@ -12,12 +12,17 @@ public class Damageable : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+        if (collision.gameObject.TryGetComponent<PlayerController>(out PlayerController controller))
         {
             // Use contact point as hit source if you want more accuracy
             Vector2 hitPoint = collision.GetContact(0).point;
 
-            playerHealth.TakeDamage(damageAmount, hitPoint, knockBackForce);
+            controller.playerHealth.TakeDamage(damageAmount, hitPoint, knockBackForce);
+        }
+
+        if(collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemiesHealth))
+        {
+            enemiesHealth.Die();
         }
     }
 
@@ -29,6 +34,11 @@ public class Damageable : MonoBehaviour
         {
             Vector2 hitPoint = collision.ClosestPoint(transform.position);
             damageCoroutine = StartCoroutine(DealDamageOverTime(playerHealth, hitPoint));
+        }
+
+        if (collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemiesHealth))
+        {
+            enemiesHealth.Die();
         }
 
     }
