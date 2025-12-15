@@ -224,7 +224,6 @@ public class PlayerController : MonoBehaviour
         {
             if(invincibleDashCollider.enabled)
             {
-                GameManager.Instance.CameraShake(impulseSource);
                 enemiesHealth.Die();
             }
         }

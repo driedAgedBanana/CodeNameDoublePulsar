@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class EnemiesHealth : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class EnemiesHealth : MonoBehaviour
     public float currentHealth;
     public BoxCollider2D groundCollider;
     public Rigidbody2D rb2D;
+    [SerializeField] private ScreenShakeProfile profile;
+    private CinemachineImpulseSource hitImpulseSource;  
 
     [Header("General references")]
     public Animator enemyAnimator;
@@ -30,6 +33,7 @@ public class EnemiesHealth : MonoBehaviour
         enemySprite = GetComponent<SpriteRenderer>();
         isAlive = SharedHealthManager.Instance.isAlive;
         deadSmokeEffect = GetComponentInChildren<ParticleSystem>();
+        hitImpulseSource = GetComponent<CinemachineImpulseSource>();
 
         if (isAlive)
         {
@@ -42,6 +46,8 @@ public class EnemiesHealth : MonoBehaviour
     {
         //SharedHealthManager.Instance.TakeDamage(amount);
         currentHealth -= amount;
+        GameManager.Instance.shakeManager.ScreenShakeFromProfile(profile, hitImpulseSource);
+
         if(currentHealth <= 0)
         {
             Die();

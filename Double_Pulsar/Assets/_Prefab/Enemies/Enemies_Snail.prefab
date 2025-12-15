@@ -5045,6 +5045,7 @@ MonoBehaviour:
   currentHealth: 0
   groundCollider: {fileID: 2968794266764192616}
   rb2D: {fileID: 7713098768399927195}
+  profile: {fileID: 11400000, guid: e95cf1bcabc808e4a8df1ffb05495ef2, type: 2}
   enemyAnimator: {fileID: 7138355947797253327}
   enemySprite: {fileID: 3244839183983626541}
   isAlive: 0
@@ -5298,7 +5299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Cinemachine::Cinemachine.CinemachineImpulseSource
   m_ImpulseDefinition:
     m_ImpulseChannel: 1
-    m_ImpulseShape: 1
+    m_ImpulseShape: 2
     m_CustomImpulseShape:
       serializedVersion: 2
       m_Curve: []
@@ -5336,4 +5337,4 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: 0, y: 0, z: -1}
+  m_DefaultVelocity: {x: 0, y: -2, z: 0}

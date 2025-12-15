@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public float globalShakeForce = 1;
+    [Header("Game managers referecnes")]
+    public CameraShakeManager shakeManager;
 
     private void Awake()
     {
@@ -31,10 +32,5 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
-    }
-
-    public void CameraShake(CinemachineImpulseSource impulseSource)
-    {
-        impulseSource.GenerateImpulseWithForce(globalShakeForce);
     }
 }
