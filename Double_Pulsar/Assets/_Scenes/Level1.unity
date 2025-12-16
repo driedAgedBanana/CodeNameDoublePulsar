@@ -444,7 +444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7182672912915627276, guid: 048cd094870bb0e4a8d7fa0d2700fabd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 138.81
+      value: 135.53
       objectReference: {fileID: 0}
     - target: {fileID: 7182672912915627276, guid: 048cd094870bb0e4a8d7fa0d2700fabd, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1115,7 +1115,7 @@ MonoBehaviour:
   waitTime: 5
   platformCollider: {fileID: 577876888}
   platformRB: {fileID: 577876890}
-  platformRenderer: {fileID: 0}
+  platformRenderer: {fileID: 577876886}
   fallDelay: 1
   transitionSpeed: 1
 --- !u!4 &627736684 stripped
@@ -146783,7 +146783,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2134493266563238937, guid: 8f0fb8bc79e79ca47827b1a62872a810, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.25028968
+      value: -0.1299994
       objectReference: {fileID: 0}
     - target: {fileID: 2810602702985601765, guid: 8f0fb8bc79e79ca47827b1a62872a810, type: 3}
       propertyPath: m_Name
@@ -146795,7 +146795,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2867677837570116709, guid: 8f0fb8bc79e79ca47827b1a62872a810, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 29.17
+      value: 29.47
       objectReference: {fileID: 0}
     - target: {fileID: 2867677837570116709, guid: 8f0fb8bc79e79ca47827b1a62872a810, type: 3}
       propertyPath: m_LocalPosition.z
@@ -146839,7 +146839,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7325374481317739055, guid: 8f0fb8bc79e79ca47827b1a62872a810, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.25028992
+      value: -0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927144163268513392, guid: 8f0fb8bc79e79ca47827b1a62872a810, type: 3}
+      propertyPath: speed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8094005962569812637, guid: 8f0fb8bc79e79ca47827b1a62872a810, type: 3}
       propertyPath: m_Size.x

@@ -66,11 +66,10 @@ public class TemporaryBlocks : MonoBehaviour
     private IEnumerator MoveBackToOriginalPosition()
     {
         // Wait before moving back
-        platformCollider.enabled = false;
-
         yield return new WaitForSeconds(waitTime);
 
         // Make the platform rise
+        platformCollider.enabled = false;
         platformRB.bodyType = RigidbodyType2D.Kinematic;
         platformRB.gravityScale = 0f;
 
