@@ -59,7 +59,7 @@ public class EnemiesHealth : MonoBehaviour
 
     private IEnumerator DeathSequence()
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.3f);
 
         SpawmItem();
         Destroy(gameObject);

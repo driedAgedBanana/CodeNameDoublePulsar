@@ -33,4 +33,21 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(1);
         }
     }
+
+    public void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        ResumeGame();
+    }
+    
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+    }
 }
