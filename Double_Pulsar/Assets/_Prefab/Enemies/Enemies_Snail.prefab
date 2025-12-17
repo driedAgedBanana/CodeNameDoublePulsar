@@ -5049,8 +5049,6 @@ MonoBehaviour:
   isAlive: 0
   deadSmokeEffect: {fileID: 8044637514946809585}
   itemDropChance:
-  - item: {fileID: 11400000, guid: 74ca45a500ddb23439479cdb202687df, type: 2}
-    dropChancePercentage: 40
   - item: {fileID: 11400000, guid: 5ed97de4ba177a545a1e37d907760c94, type: 2}
     dropChancePercentage: 60
   minItemsToDrop: 0
