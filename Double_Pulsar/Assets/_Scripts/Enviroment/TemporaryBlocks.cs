@@ -14,6 +14,9 @@ public class TemporaryBlocks : MonoBehaviour
     private Color platformColour;
     public float fallDelay = 1f;
     private bool _isFalling = false;
+    [Space]
+    private Collider2D _playerCollider;
+    private int _platformLayer;
 
     [SerializeField] private float transitionSpeed;
 
@@ -32,8 +35,9 @@ public class TemporaryBlocks : MonoBehaviour
 
         platformColour.a = 1f;
         platformRenderer.color = platformColour;
-    }
 
+        _platformLayer = LayerMask.NameToLayer("TemporaryPlatform");
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -42,6 +46,7 @@ public class TemporaryBlocks : MonoBehaviour
 
         if (collision.gameObject.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
+            _playerCollider = collision.collider; // store the specific player collider
             StartCoroutine(StartFalling());
         }
     }
@@ -52,6 +57,7 @@ public class TemporaryBlocks : MonoBehaviour
 
         yield return new WaitForSeconds(fallDelay);
 
+        Physics2D.IgnoreCollision(platformCollider, _playerCollider, true);
         platformRB.bodyType = RigidbodyType2D.Dynamic;
         platformRB.gravityScale = 1f;
 
@@ -88,6 +94,7 @@ public class TemporaryBlocks : MonoBehaviour
         // Reset falling state
         _isFalling = false;
         platformCollider.enabled = true;
+        Physics2D.IgnoreCollision(platformCollider, _playerCollider, false);
     }
 
     private IEnumerator FadeAlpha(float startAlpha, float targetAlpha, float duration)

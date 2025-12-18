@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3168034695928934119}
   - component: {fileID: 1652697631722795199}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6622530018104115901}
   - component: {fileID: 6454587617769267704}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,9 +191,9 @@ GameObject:
   - component: {fileID: 7182672912915627276}
   - component: {fileID: 4325187710082653204}
   - component: {fileID: 9178677295440489295}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: JumpPad
-  m_TagString: Untagged
+  m_TagString: JumpPad
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e739c1e598d2441a65e0d59ea5d78d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpPad
-  bounceForce: 15
+  bounceForce: 10
 --- !u!61 &9178677295440489295
 BoxCollider2D:
   m_ObjectHideFlags: 0
