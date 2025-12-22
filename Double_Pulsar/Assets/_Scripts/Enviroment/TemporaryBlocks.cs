@@ -16,7 +16,6 @@ public class TemporaryBlocks : MonoBehaviour
     private bool _isFalling = false;
     [Space]
     private Collider2D _playerCollider;
-    private int _platformLayer;
 
     [SerializeField] private float transitionSpeed;
 
@@ -35,8 +34,6 @@ public class TemporaryBlocks : MonoBehaviour
 
         platformColour.a = 1f;
         platformRenderer.color = platformColour;
-
-        _platformLayer = LayerMask.NameToLayer("TemporaryPlatform");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

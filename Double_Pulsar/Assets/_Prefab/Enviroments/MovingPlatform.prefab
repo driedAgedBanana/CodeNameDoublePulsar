@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 5124709696708858169}
   - component: {fileID: 8094005962569812637}
   - component: {fileID: 3471684741891393058}
-  - component: {fileID: 7043711029411569254}
-  m_Layer: 3
+  - component: {fileID: 3330705204327499582}
+  m_Layer: 12
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.6177, y: -0.12, z: 0}
-  m_LocalScale: {x: 4.5791917, y: 1.657, z: 1}
+  m_LocalScale: {x: 4.4634795, y: 1.657, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2867677837570116709}
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MovingPlatform
   posA: {fileID: 2134493266563238937}
   posB: {fileID: 7325374481317739055}
-  speed: 1
+  speed: 3
 --- !u!61 &5124709696708858169
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -248,7 +248,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.71, y: 0.3}
   m_EdgeRadius: 0
---- !u!50 &7043711029411569254
+--- !u!50 &3330705204327499582
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -271,7 +271,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
@@ -284,7 +284,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2867677837570116709}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: MovingPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -318,7 +318,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2134493266563238937}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PointA
   m_TagString: Untagged
   m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
@@ -334,7 +334,7 @@ Transform:
   m_GameObject: {fileID: 8243259315845434968}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.15, y: 0.01, z: 0}
+  m_LocalPosition: {x: 0.62868655, y: -3.38, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -349,7 +349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7325374481317739055}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PointB
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
@@ -365,7 +365,7 @@ Transform:
   m_GameObject: {fileID: 9028160597834935940}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.92, y: 7.91, z: 0}
+  m_LocalPosition: {x: 0.62869453, y: 8.074314, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
