@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class BigUITutorial : MonoBehaviour
 {
@@ -13,8 +15,10 @@ public class BigUITutorial : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private float fadeDuration = 0.3f;
 
-    private int currentSlideIndex = 0;
-    private bool hasActivated = false;
+    private int _currentSlideIndex = 0;
+    private bool _hasActivated = false;
+    private bool _tutorialOpen = false;
+
 
     private void Awake()
     {
@@ -35,11 +39,11 @@ public class BigUITutorial : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (hasActivated) return;
+        if (_hasActivated) return;
 
         if (collision.TryGetComponent<PlayerController>(out _))
         {
-            hasActivated = true;
+            _hasActivated = true;
             tutorialTrigger.enabled = false;
 
             OpenTutorial();
@@ -48,8 +52,10 @@ public class BigUITutorial : MonoBehaviour
 
     private void OpenTutorial()
     {
-        currentSlideIndex = 0;
-        slides[currentSlideIndex].SetActive(true);
+        _tutorialOpen = true;
+
+        _currentSlideIndex = 0;
+        slides[_currentSlideIndex].SetActive(true);
 
         canvasGroup.blocksRaycasts = true;
         canvasGroup.interactable = true;
@@ -60,16 +66,18 @@ public class BigUITutorial : MonoBehaviour
 
     public void NextSlide()
     {
-        slides[currentSlideIndex].SetActive(false);
-        currentSlideIndex++;
+        _tutorialOpen = false;
 
-        if (currentSlideIndex >= slides.Length)
+        slides[_currentSlideIndex].SetActive(false);
+        _currentSlideIndex++;
+
+        if (_currentSlideIndex >= slides.Length)
         {
             CloseTutorial();
             return;
         }
 
-        slides[currentSlideIndex].SetActive(true);
+        slides[_currentSlideIndex].SetActive(true);
     }
 
     public void CloseTutorial()
@@ -112,4 +120,20 @@ public class BigUITutorial : MonoBehaviour
             slide.SetActive(false);
         }
     }
+
+    public void OnControlTutorialPanel(InputAction.CallbackContext context)
+    {
+        if (!_tutorialOpen) return;
+        if (!context.performed) return;
+
+        if (_currentSlideIndex < slides.Length - 1)
+        {
+            NextSlide();
+        }
+        else
+        {
+            CloseTutorial();
+        }
+    }
+
 }
