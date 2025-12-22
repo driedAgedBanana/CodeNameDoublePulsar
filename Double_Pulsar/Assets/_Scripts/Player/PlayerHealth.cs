@@ -25,6 +25,8 @@ public class PlayerHealth : MonoBehaviour
     [Header("UI settings")]
     public Slider healthSlider;
     public float lerpSpeed = 0.25f;
+    [Space]
+    public GameObject youDiedScreen;
 
     private void Start()
     {
@@ -34,6 +36,11 @@ public class PlayerHealth : MonoBehaviour
         UpdateHealthSlider();
 
         hitImpulseSource = GetComponent<CinemachineImpulseSource>();
+
+        if(youDiedScreen != null)
+        {
+            youDiedScreen.SetActive(false);
+        }
     }
 
     private void Update()
@@ -46,7 +53,6 @@ public class PlayerHealth : MonoBehaviour
         }
 
         UpdateHealthSlider();
-        DebugHealth();
     }
 
     public void TakeDamage(float damage, Vector2 hitSource, float knockBackForce)
@@ -128,19 +134,20 @@ public class PlayerHealth : MonoBehaviour
         PlayerController.Instance.rb2D.mass = 0;
         PlayerController.Instance.rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
         isAlive = false;
+
+        youDiedScreen.SetActive(true);
+        StartCoroutine(WaitBeforePauseGame());
+    }
+
+    private IEnumerator WaitBeforePauseGame()
+    {
+        yield return new WaitForSeconds(0.4f);
+        GameManager.Instance.PauseGame();
     }
 
     private void UpdateHealthSlider()
     {
         float targetValue = currentHealth / maxHealth;
         healthSlider.value = Mathf.Lerp(healthSlider.value, targetValue, lerpSpeed * Time.deltaTime);
-    }
-
-    private void DebugHealth()
-    {
-        if ((Input.GetKeyDown(KeyCode.F2)))
-        {
-            currentHealth = maxHealth;
-        }
     }
 }
