@@ -364,4 +364,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 054aaa59f1b69ec4998b4194d790ff58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelComplete
+  eIcon: {fileID: 1680502148585791795}
   levelCompleteScene: {fileID: 0}
