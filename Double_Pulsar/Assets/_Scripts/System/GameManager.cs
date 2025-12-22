@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(Instance);
         }
@@ -21,17 +21,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void Start()
     {
-        DebugRestartScene();
-    }
-
-    public void DebugRestartScene()
-    {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(1);
-        }
+        HideMouse();
     }
 
     public void RestartScene()
@@ -39,7 +31,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         ResumeGame();
     }
-    
 
     public void PauseGame()
     {
@@ -49,5 +40,17 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         Time.timeScale = 1f;
+    }
+
+    public void HideMouse()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void ShowMouse()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

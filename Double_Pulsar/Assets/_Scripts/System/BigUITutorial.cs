@@ -62,6 +62,8 @@ public class BigUITutorial : MonoBehaviour
 
         StartCoroutine(FadeCanvas(0f, 1f));
         StartCoroutine(PauseAfterDelay());
+
+        GameManager.Instance.ShowMouse();
     }
 
     public void NextSlide()
@@ -89,6 +91,8 @@ public class BigUITutorial : MonoBehaviour
 
         GameManager.Instance.ResumeGame();
         StartCoroutine(DisableAllSlidesAfterFade());
+
+        GameManager.Instance.HideMouse();
     }
 
     private IEnumerator FadeCanvas(float from, float to)

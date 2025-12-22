@@ -47,6 +47,7 @@ public class LevelComplete : MonoBehaviour, IPlayerInteract
         {
             levelCompleteScene.SetActive(true);
             GameManager.Instance.PauseGame();
+            GameManager.Instance.ShowMouse();
         }
     }
 }
