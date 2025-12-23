@@ -106,7 +106,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Cancel",
+                    "name": "PauseGame",
                     "type": "Button",
                     "id": "3f6a332a-dbd9-47f7-adb8-d312db31ee88",
                     "expectedControlType": "",
@@ -519,7 +519,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Cancel",
+                    "action": "PauseGame",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

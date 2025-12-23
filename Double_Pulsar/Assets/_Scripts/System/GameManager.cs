@@ -1,10 +1,15 @@
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    public GameObject pauseGamePanel;
+    private bool _isGamePaused = false;
+    [HideInInspector] public bool _isAllowToPause = true;
 
     [Header("Game managers referecnes")]
     public CameraShakeManager shakeManager;
@@ -24,12 +29,39 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         HideMouse();
+
+        if(pauseGamePanel != null)
+            pauseGamePanel.SetActive(false);
     }
 
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         ResumeGame();
+    }
+
+    public void TogglePausePanel()
+    {
+        _isGamePaused = !_isGamePaused;
+
+        if(!_isAllowToPause)
+        {
+            _isGamePaused = false;
+            return;
+        }
+
+        if (_isGamePaused)
+        {
+            PauseGame();
+            ShowMouse();
+            pauseGamePanel.SetActive(true);
+        }
+        else
+        {
+            ResumeGame();
+            HideMouse();
+            pauseGamePanel.SetActive(false);
+        }
     }
 
     public void PauseGame()
@@ -52,5 +84,21 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void OnContinueButton()
+    {
+        ResumeGame();
+        HideMouse();
+        pauseGamePanel.SetActive(false);
+        _isGamePaused = false;
+    }
+
+    public void OnCallingPausePanel(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            TogglePausePanel();
+        }
     }
 }

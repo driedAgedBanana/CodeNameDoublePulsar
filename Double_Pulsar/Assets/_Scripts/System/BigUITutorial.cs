@@ -17,7 +17,7 @@ public class BigUITutorial : MonoBehaviour
 
     private int _currentSlideIndex = 0;
     private bool _hasActivated = false;
-    private bool _tutorialOpen = false;
+    [HideInInspector] public bool tutorialOpen = false;
 
 
     private void Awake()
@@ -52,7 +52,7 @@ public class BigUITutorial : MonoBehaviour
 
     private void OpenTutorial()
     {
-        _tutorialOpen = true;
+        tutorialOpen = true;
 
         _currentSlideIndex = 0;
         slides[_currentSlideIndex].SetActive(true);
@@ -64,11 +64,12 @@ public class BigUITutorial : MonoBehaviour
         StartCoroutine(PauseAfterDelay());
 
         GameManager.Instance.ShowMouse();
+        GameManager.Instance._isAllowToPause = false;
     }
 
     public void NextSlide()
     {
-        _tutorialOpen = false;
+        tutorialOpen = false;
 
         slides[_currentSlideIndex].SetActive(false);
         _currentSlideIndex++;
@@ -80,6 +81,7 @@ public class BigUITutorial : MonoBehaviour
         }
 
         slides[_currentSlideIndex].SetActive(true);
+        GameManager.Instance._isAllowToPause = false;
     }
 
     public void CloseTutorial()
@@ -93,6 +95,7 @@ public class BigUITutorial : MonoBehaviour
         StartCoroutine(DisableAllSlidesAfterFade());
 
         GameManager.Instance.HideMouse();
+        GameManager.Instance._isAllowToPause = true;
     }
 
     private IEnumerator FadeCanvas(float from, float to)
@@ -127,7 +130,7 @@ public class BigUITutorial : MonoBehaviour
 
     public void OnControlTutorialPanel(InputAction.CallbackContext context)
     {
-        if (!_tutorialOpen) return;
+        if (!tutorialOpen) return;
         if (!context.performed) return;
 
         if (_currentSlideIndex < slides.Length - 1)
