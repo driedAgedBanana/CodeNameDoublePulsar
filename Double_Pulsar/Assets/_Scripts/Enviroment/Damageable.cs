@@ -20,7 +20,7 @@ public class Damageable : MonoBehaviour
             controller.playerHealth.TakeDamage(damageAmount, hitPoint, knockBackForce);
         }
 
-        if(collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemiesHealth))
+        if (collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemiesHealth))
         {
             enemiesHealth.Die();
         }
@@ -30,8 +30,10 @@ public class Damageable : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         _isEnteringTriggerZone = true;
+
         if (collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
         {
+            PlayerController.Instance.canDash = false;
             Vector2 hitPoint = collision.ClosestPoint(transform.position);
             damageCoroutine = StartCoroutine(DealDamageOverTime(playerHealth, hitPoint));
         }
@@ -47,8 +49,8 @@ public class Damageable : MonoBehaviour
     {
         _isEnteringTriggerZone = false;
         collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth);
-
-        if(damageCoroutine != null)
+        PlayerController.Instance.canDash = true;
+        if (damageCoroutine != null)
         {
             StopCoroutine(damageCoroutine);
         }

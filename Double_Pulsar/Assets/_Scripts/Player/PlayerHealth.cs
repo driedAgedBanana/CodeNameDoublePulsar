@@ -136,6 +136,7 @@ public class PlayerHealth : MonoBehaviour
         isAlive = false;
 
         youDiedScreen.SetActive(true);
+        GameManager.Instance.ShowMouse();
         StartCoroutine(WaitBeforePauseGame());
     }
 
