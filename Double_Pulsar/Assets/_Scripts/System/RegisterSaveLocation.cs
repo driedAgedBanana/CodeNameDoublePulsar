@@ -8,6 +8,7 @@ public class RegisterSaveLocation : MonoBehaviour, IPlayerInteract
 
     [Header("Default settings")]
     private bool _isAllowToInteract = false;
+    private bool _isAllowedToRegister = true;
 
     private void Start()
     {
@@ -34,8 +35,23 @@ public class RegisterSaveLocation : MonoBehaviour, IPlayerInteract
     {
         if (_isAllowToInteract)
         {
-            GameManager.Instance.RegisterSpawnPoint(this.transform);
-            Debug.Log("Save location registered at: " + this.transform.position);
+            if (!_isAllowedToRegister)
+            {
+                return;
+            }
+            else
+            {
+                GameManager.Instance.RegisterSpawnPoint(this.transform);
+                Debug.Log("Save location registered at: " + this.transform.position);
+                _isAllowedToRegister = false;
+                StartCoroutine(WaitToAllowRegister());
+            }
         }
+    }
+
+    private IEnumerator WaitToAllowRegister()
+    {
+        yield return new WaitForSeconds(2);
+        _isAllowedToRegister = true;
     }
 }

@@ -2,6 +2,7 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     [Header("Player position setting")]
     public GameObject player;
     public GameObject startLocation;
+    public CanvasGroup checkPointReachedPanel;
     [HideInInspector] public GameObject _playerInstance;
     [Space]
     public CinemachineVirtualCamera mainCamera;
@@ -41,6 +43,11 @@ public class GameManager : MonoBehaviour
         HideMouse();
 
         respawnPoint = startLocation.transform;
+
+        if (checkPointReachedPanel != null)
+        {
+            checkPointReachedPanel.alpha = 0f;
+        }
     }
 
     private void SpawnPlayer()
@@ -58,6 +65,31 @@ public class GameManager : MonoBehaviour
     {
         _registeredSpawnPoint = newSpawnPoint;
         respawnPoint = _registeredSpawnPoint;
+        StartCoroutine(FadeAlphaManager());
+    }
+
+    private IEnumerator FadeAlphaManager()
+    {
+        yield return StartCoroutine(FadeAlpha(0f, 1f, 0.5f));
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(FadeAlpha(1f, 0f, 0.5f));
+    }
+
+    private IEnumerator FadeAlpha(float startAlpha, float endAlpha, float duration)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime <= duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float normalizedValue = Mathf.Clamp01(elapsedTime / duration);
+            float alphaValue = Mathf.Lerp(startAlpha, endAlpha, normalizedValue);
+            if (checkPointReachedPanel != null)
+            {
+                checkPointReachedPanel.alpha = alphaValue;
+            }
+            yield return null;
+        }
     }
 
     public void RespawnPlayer()
