@@ -64,7 +64,7 @@ public class BigUITutorial : MonoBehaviour
         StartCoroutine(PauseAfterDelay());
 
         GameManager.Instance.ShowMouse();
-        GameManager.Instance._isAllowToPause = false;
+        PlayerUIManager.Instance._isAllowToPause = false;
     }
 
     public void NextSlide()
@@ -81,7 +81,7 @@ public class BigUITutorial : MonoBehaviour
         }
 
         slides[_currentSlideIndex].SetActive(true);
-        GameManager.Instance._isAllowToPause = false;
+        PlayerUIManager.Instance._isAllowToPause = false;
     }
 
     public void CloseTutorial()
@@ -95,7 +95,7 @@ public class BigUITutorial : MonoBehaviour
         StartCoroutine(DisableAllSlidesAfterFade());
 
         GameManager.Instance.HideMouse();
-        GameManager.Instance._isAllowToPause = true;
+        PlayerUIManager.Instance._isAllowToPause = true;
     }
 
     private IEnumerator FadeCanvas(float from, float to)

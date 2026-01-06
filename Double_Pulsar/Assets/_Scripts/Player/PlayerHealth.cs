@@ -37,7 +37,7 @@ public class PlayerHealth : MonoBehaviour
 
         hitImpulseSource = GetComponent<CinemachineImpulseSource>();
 
-        if(youDiedScreen != null)
+        if (youDiedScreen != null)
         {
             youDiedScreen.SetActive(false);
         }
@@ -65,14 +65,14 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             if (_isInvulnerable) return;
-            
+
             isBeingKnocked = true;
             StartCoroutine(StopMovementOnKnockBack(knockbackDuration));
 
             currentHealth -= damage;
             GameManager.Instance.shakeManager.CameraShake(hitImpulseSource);
 
-            if(knockBackForce >= 0)
+            if (knockBackForce >= 0)
             {
                 // Apply knockback
                 Vector2 hitDir = (transform.position - (Vector3)hitSource).normalized;
@@ -129,6 +129,15 @@ public class PlayerHealth : MonoBehaviour
         currentHealth += healAmount;
     }
 
+    public void ResetHealth()
+    {
+        currentHealth = maxHealth;
+        isAlive = true;
+
+        PlayerController.Instance.rb2D.mass = 1;
+        PlayerController.Instance.rb2D.constraints = RigidbodyConstraints2D.None;
+    }
+
     public void Die()
     {
         PlayerController.Instance.rb2D.mass = 0;
@@ -137,7 +146,7 @@ public class PlayerHealth : MonoBehaviour
 
         youDiedScreen.SetActive(true);
         GameManager.Instance.ShowMouse();
-        StartCoroutine(WaitBeforePauseGame());
+        // StartCoroutine(WaitBeforePauseGame());
     }
 
     private IEnumerator WaitBeforePauseGame()

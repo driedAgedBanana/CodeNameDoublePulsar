@@ -7,18 +7,28 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public GameObject pauseGamePanel;
-    private bool _isGamePaused = false;
-    [HideInInspector] public bool _isAllowToPause = true;
-
     [Header("Game managers referecnes")]
     public CameraShakeManager shakeManager;
 
+    [Header("Player position setting")]
+    public GameObject player;
+    public GameObject startLocation;
+    [HideInInspector] public GameObject _playerInstance;
+    [Space]
+    public CinemachineVirtualCamera mainCamera;
+    [Space]
+    public Transform respawnPoint;
+    [HideInInspector] public Transform _registeredSpawnPoint;
+
+    PlayerInput _input;
+
     private void Awake()
     {
+        SpawnPlayer();
+
         if (Instance != null && Instance != this)
         {
-            Destroy(Instance);
+            Destroy(gameObject);
         }
         else
         {
@@ -30,38 +40,39 @@ public class GameManager : MonoBehaviour
     {
         HideMouse();
 
-        if(pauseGamePanel != null)
-            pauseGamePanel.SetActive(false);
+        respawnPoint = startLocation.transform;
     }
 
-    public void RestartScene()
+    private void SpawnPlayer()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (player != null && startLocation != null)
+        {
+            _playerInstance = Instantiate(player, startLocation.transform.position, Quaternion.identity);
+
+            mainCamera.Follow = _playerInstance.transform;
+            mainCamera.LookAt = _playerInstance.transform;
+        }
+    }
+
+    public void RegisterSpawnPoint(Transform newSpawnPoint)
+    {
+        _registeredSpawnPoint = newSpawnPoint;
+        respawnPoint = _registeredSpawnPoint;
+    }
+
+    public void RespawnPlayer()
+    {
+        if (_playerInstance != null && respawnPoint != null)
+        {
+            _playerInstance.transform.position = respawnPoint.position;
+            PlayerController.Instance.playerHealth.ResetHealth();
+        }
+    }
+
+    public void RestartFromCheckpoint()
+    {
+        RespawnPlayer();
         ResumeGame();
-    }
-
-    public void TogglePausePanel()
-    {
-        _isGamePaused = !_isGamePaused;
-
-        if(!_isAllowToPause)
-        {
-            _isGamePaused = false;
-            return;
-        }
-
-        if (_isGamePaused)
-        {
-            PauseGame();
-            ShowMouse();
-            pauseGamePanel.SetActive(true);
-        }
-        else
-        {
-            ResumeGame();
-            HideMouse();
-            pauseGamePanel.SetActive(false);
-        }
     }
 
     public void PauseGame()
@@ -84,21 +95,5 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-    }
-
-    public void OnContinueButton()
-    {
-        ResumeGame();
-        HideMouse();
-        pauseGamePanel.SetActive(false);
-        _isGamePaused = false;
-    }
-
-    public void OnCallingPausePanel(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            TogglePausePanel();
-        }
     }
 }

@@ -8,10 +8,18 @@ public class TutorialFollow : MonoBehaviour
 
     [SerializeField] private Transform target;
 
+    private void Start()
+    {
+        target = GameObject.FindWithTag("Player").transform;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        Vector3 targetPosition = target.position + offSet;
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        if(target != null)
+        {
+            Vector3 targetPosition = target.position + offSet;
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        }
     }
 }
