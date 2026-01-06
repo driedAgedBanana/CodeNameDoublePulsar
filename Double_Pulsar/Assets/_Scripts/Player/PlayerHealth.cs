@@ -135,7 +135,7 @@ public class PlayerHealth : MonoBehaviour
         isAlive = true;
 
         PlayerController.Instance.rb2D.mass = 1;
-        PlayerController.Instance.rb2D.constraints = RigidbodyConstraints2D.None;
+        PlayerController.Instance.rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     public void Die()
