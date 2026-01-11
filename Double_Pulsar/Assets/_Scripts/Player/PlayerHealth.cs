@@ -16,6 +16,9 @@ public class PlayerHealth : MonoBehaviour
     [HideInInspector] public bool isBeingKnocked = false;
     private CinemachineImpulseSource hitImpulseSource;
 
+    [Header("Checking health amount")]
+    public float lowHealthThreshold = 25f;
+
     [Header("i-Frame")]
     public float invulnerabilityDuration = 1f;
     public int flashCount = 5;
@@ -27,6 +30,9 @@ public class PlayerHealth : MonoBehaviour
     public float lerpSpeed = 0.25f;
     [Space]
     public GameObject youDiedScreen;
+    [Space]
+    public Image lowHealthOverlay;
+    private bool _isHealthLow = false;
 
     private void Start()
     {
@@ -41,18 +47,40 @@ public class PlayerHealth : MonoBehaviour
         {
             youDiedScreen.SetActive(false);
         }
+
+        if (lowHealthOverlay != null)
+        {
+            lowHealthOverlay.enabled = false;
+        }
     }
 
     private void Update()
     {
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && isAlive)
         {
             Die();
         }
 
         UpdateHealthSlider();
+
+        // The "Switch" Logic
+        bool currentlyLow = CheckIfHealthAreLow();
+
+        // Only do something if the state flipped (e.g., went from healthy to low)
+        if (currentlyLow != _isHealthLow)
+        {
+            _isHealthLow = currentlyLow;
+
+            if (_isHealthLow)
+            {
+                // Start looping pulse
+                StartCoroutine(PulseLowHealthEffect());
+            }
+            // If false, the Coroutine loop below will naturally see that 
+            // _isHealthLow is false and stop itself.
+        }
     }
 
     public void TakeDamage(float damage, Vector2 hitSource, float knockBackForce)
@@ -64,9 +92,8 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            if (_isInvulnerable) return;
-
             isBeingKnocked = true;
+            if (_isInvulnerable) return;
             StartCoroutine(StopMovementOnKnockBack(knockbackDuration));
 
             currentHealth -= damage;
@@ -87,6 +114,11 @@ public class PlayerHealth : MonoBehaviour
             StartCoroutine(HandleIFrame());
 
         }
+    }
+
+    private bool CheckIfHealthAreLow()
+    {
+        return currentHealth <= lowHealthThreshold;
     }
 
     private IEnumerator StopMovementOnKnockBack(float seconds)
@@ -136,6 +168,43 @@ public class PlayerHealth : MonoBehaviour
 
         PlayerController.Instance.rb2D.mass = 1;
         PlayerController.Instance.rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    private IEnumerator PulseLowHealthEffect()
+    {
+        lowHealthOverlay.enabled = true;
+
+        // Loop as long as the boolean switch is true
+        while (_isHealthLow)
+        {
+            // Fade In
+            yield return StartCoroutine(FadeAlphaLowHealthPanel(0f, 0.5f, 0.8f));
+            // Fade Out
+            yield return StartCoroutine(FadeAlphaLowHealthPanel(0.5f, 0f, 0.8f));
+        }
+
+        // Ensure it's fully invisible when health is restored
+        lowHealthOverlay.enabled = false;
+    }
+
+    private IEnumerator FadeAlphaLowHealthPanel(float startAlpha, float targetAlpha, float duration)
+    {
+        float elapsed = 0f;
+        Color overlayColor = lowHealthOverlay.color;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            overlayColor.a = Mathf.Lerp(startAlpha, targetAlpha, t);
+            lowHealthOverlay.color = overlayColor;
+
+            yield return null;
+        }
+
+        overlayColor.a = targetAlpha;
+        lowHealthOverlay.color = overlayColor;
     }
 
     public void Die()
