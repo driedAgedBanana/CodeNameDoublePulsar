@@ -9248,7 +9248,7 @@ MonoBehaviour:
   sweat: {fileID: 0}
   maxEnergy: 100
   regainEnergyRate: 35
-  waitTime: 0.8
+  waitTime: 0.3
   currentEnergy: 0
   isEnergyEmpty: 0
   isRecharging: 0
@@ -9275,7 +9275,7 @@ MonoBehaviour:
   currentSpeed: 0
   jumpForce: 7
   currentJumpForce: 0
-  longJumpEnergyDrainRate: 15
+  longJumpEnergyDrainRate: 6
   shortJumpEnergyDrainRate: 17
   dashForce: 25
   currentDashForce: 0
@@ -9284,7 +9284,7 @@ MonoBehaviour:
   dashTrail: {fileID: 8766764000132871887}
   canDash: 0
   isDashing: 0
-  dashEnergyDrainRate: 35
+  dashEnergyDrainRate: 15
   invincibleDashCollider: {fileID: 6382795851992982305}
   damageAmount: 100
   bounceForceOnEnemy: 2

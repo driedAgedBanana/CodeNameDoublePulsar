@@ -10,7 +10,7 @@ public class RegisterSaveLocation : MonoBehaviour, IPlayerInteract
     private bool _isAllowToInteract = false;
     private bool _isAllowedToRegister = true;
 
-    private void Start()
+    private void Awake()
     {
         if (eIcon != null)
         {
