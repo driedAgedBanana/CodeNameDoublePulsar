@@ -234,15 +234,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   rb2D: {fileID: 307214363}
   currentGravitySource: {fileID: 0}
+  jetPackEnergy: {fileID: 0}
+  inventory: {fileID: 0}
+  playerHealth: {fileID: 0}
   playerAnimation: {fileID: 307214364}
   moveSpeed: 3.5
+  currentSpeed: 0
   jumpForce: 5
+  currentJumpForce: 0
+  longJumpEnergyDrainRate: 2
+  shortJumpEnergyDrainRate: 2
+  dashForce: 20
+  currentDashForce: 0
+  dashDuration: 0.2
+  maxDashDistance: 6
+  dashCooldown: 1
+  dashTrail: {fileID: 0}
+  canDash: 0
+  isDashing: 0
+  dashEnergyDrainRate: 3.5
+  invincibleDashCollider: {fileID: 0}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  damageAmount: 100
+  bounceForceOnEnemy: 10
   groundCheckPosition: {fileID: 1391855759}
   groundCheckSize: {x: 0.37, y: 0.01}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  standardGravity: 0
+  _isTeleporting: 0
+  isOnPlatform: 0
+  platformRB: {fileID: 0}
 --- !u!114 &307214361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,18 +340,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
     m_ActionName: 'Player/Jump[/Keyboard/space]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 2776c80d-3c14-4091-8c56-d04ced07a2b0
-    m_ActionName: 'Player/Previous[/Keyboard/1]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba
-    m_ActionName: 'Player/Next[/Keyboard/2]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 641cd816-40e6-41b4-8c3d-04687c349290
-    m_ActionName: 'Player/Sprint[/Keyboard/leftShift]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
@@ -416,6 +428,18 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d4d7243d-d437-4ec2-b7f7-d07f9a54b682
     m_ActionName: 'Player/CameraZoomToggle[/Keyboard/m]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3a138bc7-5026-42c1-8c68-fe78b372e2f0
+    m_ActionName: 'Player/Dash[/Keyboard/l]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 94c27b22-84ba-4966-8055-3a0543adefcf
+    m_ActionName: 'Player/UseHealthPotion[/Keyboard/f]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3f6a332a-dbd9-47f7-adb8-d312db31ee88
+    m_ActionName: 'Player/PauseGame[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
