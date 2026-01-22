@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
@@ -34,12 +34,15 @@ public class PlayerController : MonoBehaviour
     public float dashForce = 20f;
     [HideInInspector] public float currentDashForce;
     public float dashDuration = 0.2f;
+    [SerializeField] private float maxDashDistance = 6f;
     public float dashCooldown = 1f;
     public TrailRenderer dashTrail;
     [HideInInspector] public bool canDash;
     [HideInInspector] public bool isDashing;
     public float dashEnergyDrainRate = 3.5f;
     public BoxCollider2D invincibleDashCollider;
+    [SerializeField] private LayerMask wallLayer;
+    private float originalGravity;
 
     [Header("Dealing damage on enemies")]
     public int damageAmount = 100;
@@ -85,7 +88,7 @@ public class PlayerController : MonoBehaviour
 
         impulseSource = GetComponent<CinemachineImpulseSource>();
 
-        if(invincibleDashCollider != null)
+        if (invincibleDashCollider != null)
         {
             invincibleDashCollider.enabled = false;
         }
@@ -138,44 +141,63 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator StartDash()
     {
-        if(jetPackEnergy.currentEnergy > 0 && !playerHealth.isBeingKnocked)
-        {
-            canDash = false;
-            isDashing = true;
-            float originalGravity = rb2D.gravityScale;
-            rb2D.gravityScale = 0f;
-            invincibleDashCollider.enabled = true;
-            rb2D.linearVelocity = new Vector2(transform.localScale.x * currentDashForce, 0f);
-            jetPackEnergy.DrainEnergy(dashEnergyDrainRate);
-            dashTrail.emitting = true;
-
-            yield return new WaitForSeconds(dashDuration);
-
-            dashTrail.emitting = false;
-            rb2D.gravityScale = originalGravity;
-            isDashing = false;
-            invincibleDashCollider.enabled = false;
-            yield return new WaitForSeconds(dashCooldown);
-            canDash = true;
-
-            while(isDashing)
-            {
-                if(jetPackEnergy.currentEnergy <= 0 || playerHealth.isBeingKnocked)
-                {
-                    isDashing = false;
-                    dashTrail.emitting = false;
-                    rb2D.gravityScale = originalGravity;
-                    invincibleDashCollider.enabled = false;
-                    yield break;
-                }
-                yield return null;
-            }
-        }
-        else
-        {
+        // Hard gate — fail fast
+        if (!canDash || jetPackEnergy.currentEnergy <= 0f || playerHealth.isBeingKnocked)
             yield break;
+
+        canDash = false;
+        isDashing = true;
+
+        originalGravity = rb2D.gravityScale;
+        rb2D.gravityScale = 0f;
+
+        // HARD RESET vertical momentum
+        rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, 0f);
+
+
+        invincibleDashCollider.enabled = true;
+        dashTrail.emitting = true;
+
+        Vector2 dashDir = Vector2.right * Mathf.Sign(transform.localScale.x);
+        Vector2 startPos = rb2D.position;
+
+        // --- WALL CHECK ---
+        RaycastHit2D hit = Physics2D.Raycast(startPos, dashDir, maxDashDistance, wallLayer);
+
+        float dashDistance = hit.collider != null ? Mathf.Max(0f, hit.distance - 0.05f) : maxDashDistance; // safety buffer
+
+        Vector2 targetPos = startPos + dashDir * dashDistance;
+
+        float elapsed = 0f;
+
+        while (elapsed < dashDuration)
+        {
+            // Early cancel conditions
+            if (jetPackEnergy.currentEnergy <= 0f || playerHealth.isBeingKnocked)
+                break;
+
+            float t = elapsed / dashDuration;
+            rb2D.MovePosition(Vector2.Lerp(startPos, targetPos, t));
+
+            jetPackEnergy.DrainEnergy(dashEnergyDrainRate * Time.fixedDeltaTime);
+
+            elapsed += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
         }
+
+        // Snap to final position (prevents micro drift)
+        rb2D.MovePosition(targetPos);
+
+        // --- CLEAN EXIT ---
+        dashTrail.emitting = false;
+        invincibleDashCollider.enabled = false;
+        rb2D.gravityScale = originalGravity;
+        isDashing = false;
+
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
     }
+
 
     private void Flip()
     {
@@ -216,7 +238,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -226,9 +248,9 @@ public class PlayerController : MonoBehaviour
             currentGravitySource = gravitySource;
         }
 
-        if(collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemiesHealth))
+        if (collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemiesHealth))
         {
-            if(invincibleDashCollider.enabled)
+            if (invincibleDashCollider.enabled)
             {
                 enemiesHealth.Die();
             }

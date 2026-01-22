@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public GameObject debugLight;
+
     [Header("Game managers referecnes")]
     public CameraShakeManager shakeManager;
 
@@ -47,6 +49,11 @@ public class GameManager : MonoBehaviour
         if (checkPointReachedPanel != null)
         {
             checkPointReachedPanel.alpha = 0f;
+        }
+
+        if(debugLight != null)
+        {
+            debugLight.SetActive(false);
         }
     }
 

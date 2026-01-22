@@ -70,6 +70,11 @@ public class PlayerUIManager : MonoBehaviour
         }
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
     public void RestartGameOnDeath()
     {
         GameManager.Instance.RestartFromCheckpoint();
