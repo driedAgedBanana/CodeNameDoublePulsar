@@ -13,6 +13,18 @@ public class GameManager : MonoBehaviour
     [Header("Game managers referecnes")]
     public CameraShakeManager shakeManager;
 
+    [Header("Menu manager")]
+    public GameObject welcomeMenu;
+    public GameObject mainMenuUI;
+    public GameObject mainMenuGameObject;
+    public CanvasGroup mainMenuCanvasGroup;
+    public GameObject eventSystem;
+    public GameObject playerStartLocationSprite;
+    public GameObject dynamicTutorialPanel;
+    [HideInInspector] public bool isMainMenuActive = true;
+    [SerializeField] private float _menuFadeDuration = 0.5f;
+    public GameObject remindText;
+
     [Header("Player position setting")]
     public GameObject player;
     public GameObject startLocation;
@@ -28,8 +40,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        SpawnPlayer();
-
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -42,7 +52,22 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        HideMouse();
+        ShowMouse();
+        if (mainMenuUI != null && mainMenuCanvasGroup != null && playerStartLocationSprite != null && eventSystem != null && dynamicTutorialPanel != null
+            && welcomeMenu != null && mainMenuGameObject != null && remindText != null)
+        {
+            isMainMenuActive = true;
+
+            welcomeMenu.SetActive(true);
+            mainMenuUI.SetActive(true);
+            mainMenuGameObject.SetActive(false);
+            mainMenuCanvasGroup.alpha = 0f;
+
+            playerStartLocationSprite.SetActive(true);
+            dynamicTutorialPanel.SetActive(false);
+            eventSystem.SetActive(true);
+            remindText.SetActive(true);
+        }
 
         respawnPoint = startLocation.transform;
 
@@ -51,10 +76,16 @@ public class GameManager : MonoBehaviour
             checkPointReachedPanel.alpha = 0f;
         }
 
-        if(debugLight != null)
+        if (debugLight != null)
         {
             debugLight.SetActive(false);
         }
+
+    }
+
+    private void Update()
+    {
+        AnyButtonToMain();
     }
 
     private void SpawnPlayer()
@@ -63,8 +94,19 @@ public class GameManager : MonoBehaviour
         {
             _playerInstance = Instantiate(player, startLocation.transform.position, Quaternion.identity);
 
+            // Assign the player to the camera
             mainCamera.Follow = _playerInstance.transform;
             mainCamera.LookAt = _playerInstance.transform;
+
+            // Access the component
+            CinemachineFramingTransposer transposer = mainCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+            if (transposer != null)
+            {
+                // This forces the internal damping logic to "catch up" over time 
+                // instead of snapping to the target position instantly.
+                transposer.OnTargetObjectWarped(_playerInstance.transform, _playerInstance.transform.position - mainCamera.transform.position);
+            }
         }
     }
 
@@ -134,5 +176,55 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void AnyButtonToMain()
+    {
+        if (Input.anyKeyDown)
+        {
+            welcomeMenu.SetActive(false);
+            mainMenuGameObject.SetActive(true);
+            StartCoroutine(FadeMainMenuCanva(0f, 1f));
+        }
+    }
+
+    public void StartGame()
+    {
+        if (isMainMenuActive)
+        {
+            StartCoroutine(FadeMainMenuCanva(1f, 0f));
+            mainMenuUI.SetActive(false);
+            SpawnPlayer();
+            ResumeGame();
+            playerStartLocationSprite.SetActive(false);
+            isMainMenuActive = false;
+            eventSystem.SetActive(false);
+            remindText.SetActive(false);
+            HideMouse();
+
+            dynamicTutorialPanel.SetActive(true);
+        }
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+        print("Quit Game!");
+    }
+
+    private IEnumerator FadeMainMenuCanva(float startAlpha, float targetAlpha)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < _menuFadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float normalizedValue = Mathf.Clamp01(elapsedTime / _menuFadeDuration);
+            float alphaValue = Mathf.Lerp(startAlpha, targetAlpha, normalizedValue);
+            if (mainMenuCanvasGroup != null)
+            {
+                mainMenuCanvasGroup.alpha = alphaValue;
+            }
+            yield return null;
+        }
     }
 }

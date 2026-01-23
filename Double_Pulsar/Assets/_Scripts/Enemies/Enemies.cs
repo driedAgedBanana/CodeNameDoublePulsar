@@ -55,16 +55,29 @@ public class Enemies : MonoBehaviour
     {
         if (!enemyHealth.isAlive) return;
 
-        // Determine distance between enemy and player
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
-        if (distanceToPlayer < detectionRange)
+        // If player is null, try to find it again or just stop here
+        if (player == null)
         {
-            ChasePlayer();
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+            }
+            return; // Don't run the rest of the code until player is found
         }
-        else
+
+        if (!GameManager.Instance.isMainMenuActive)
         {
-            Patrol();
+            float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+            if (distanceToPlayer < detectionRange)
+            {
+                ChasePlayer();
+            }
+            else
+            {
+                Patrol();
+            }
         }
     }
 
@@ -116,7 +129,7 @@ public class Enemies : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        
+
     }
 
     private void OnTriggerStay2D(Collider2D collision)

@@ -47,12 +47,15 @@ public class Damageable : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        _isEnteringTriggerZone = false;
-        collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth);
-        PlayerController.Instance.canDash = true;
-        if (damageCoroutine != null)
+        if (!GameManager.Instance.isMainMenuActive)
         {
-            StopCoroutine(damageCoroutine);
+            _isEnteringTriggerZone = false;
+            collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth);
+            PlayerController.Instance.canDash = true;
+            if (damageCoroutine != null)
+            {
+                StopCoroutine(damageCoroutine);
+            }
         }
     }
 
