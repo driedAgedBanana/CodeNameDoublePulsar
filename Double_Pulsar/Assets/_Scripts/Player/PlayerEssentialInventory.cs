@@ -35,6 +35,7 @@ public class PlayerEssentialInventory : MonoBehaviour
     void Start()
     {
         currentHealthPotion = 0;
+        print(currentHealthPotion);
         UpdateCoinText();
     }
 

@@ -33,6 +33,7 @@ public class PlayerHealth : MonoBehaviour
     [Space]
     public Image lowHealthOverlay;
     private bool _isHealthLow = false;
+    public SpriteRenderer healingButtonIndicator;
 
     private void Start()
     {
@@ -51,6 +52,11 @@ public class PlayerHealth : MonoBehaviour
         if (lowHealthOverlay != null)
         {
             lowHealthOverlay.enabled = false;
+        }
+
+        if (healingButtonIndicator != null)
+        {
+            healingButtonIndicator.gameObject.SetActive(false);
         }
     }
 
@@ -174,18 +180,50 @@ public class PlayerHealth : MonoBehaviour
     {
         lowHealthOverlay.enabled = true;
 
-        // Loop as long as the boolean switch is true
         while (_isHealthLow)
         {
-            // Fade In
-            yield return StartCoroutine(FadeAlphaLowHealthPanel(0f, 0.5f, 0.8f));
-            // Fade Out
-            yield return StartCoroutine(FadeAlphaLowHealthPanel(0.5f, 0f, 0.8f));
+            bool hasItems = PlayerController.Instance.inventory.currentHealthPotion > 0;
+
+            // Ensure correct active state
+            healingButtonIndicator.gameObject.SetActive(hasItems);
+
+            if (!hasItems)
+            {
+                // Force invisible if no items
+                SetAlpha(healingButtonIndicator, 0f);
+            }
+
+            // ===== FADE IN =====
+            yield return StartCoroutine(FadeAlphaLowHealthPanel(0f, 0.3f, 0.5f));
+
+            if (hasItems)
+                yield return StartCoroutine(FadeAlphaHealingButton(0f, 1f, 0.5f));
+            else
+                yield return new WaitForSeconds(0.8f);
+
+            // ===== FADE OUT =====
+            yield return StartCoroutine(FadeAlphaLowHealthPanel(0.3f, 0f, 0.5f));
+
+            if (hasItems)
+                yield return StartCoroutine(FadeAlphaHealingButton(1f, 0f, 0.5f));
+            else
+                yield return new WaitForSeconds(0.8f);
         }
 
-        // Ensure it's fully invisible when health is restored
         lowHealthOverlay.enabled = false;
+
+        // Cleanup
+        SetAlpha(healingButtonIndicator, 0f);
+        healingButtonIndicator.gameObject.SetActive(false);
     }
+
+    private void SetAlpha(SpriteRenderer g, float a)
+    {
+        Color c = g.color;
+        c.a = a;
+        g.color = c;
+    }
+
 
     private IEnumerator FadeAlphaLowHealthPanel(float startAlpha, float targetAlpha, float duration)
     {
@@ -205,6 +243,22 @@ public class PlayerHealth : MonoBehaviour
 
         overlayColor.a = targetAlpha;
         lowHealthOverlay.color = overlayColor;
+    }
+
+    private IEnumerator FadeAlphaHealingButton(float startAlpha, float targetAlpha, float duration)
+    {
+        float elapsed = 0f;
+        Color buttonColor = healingButtonIndicator.color;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            buttonColor.a = Mathf.Lerp(startAlpha, targetAlpha, t);
+            healingButtonIndicator.color = buttonColor;
+            yield return null;
+        }
+        buttonColor.a = targetAlpha;
+        healingButtonIndicator.color = buttonColor;
     }
 
     public void Die()
