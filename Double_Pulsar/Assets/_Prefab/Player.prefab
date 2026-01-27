@@ -9329,7 +9329,7 @@ MonoBehaviour:
   knockbackDuration: 0.7
   rb2D: {fileID: 3884714125470828964}
   isBeingKnocked: 0
-  lowHealthThreshold: 20
+  lowHealthThreshold: 35
   invulnerabilityDuration: 0.9
   flashCount: 5
   playerSprite: {fileID: 5200960579016841918}
