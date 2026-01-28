@@ -9421,8 +9421,8 @@ MonoBehaviour:
   maxHealthPotion: 2
   currentHealthPotion: 0
   isBagFull: 0
-  minHealAmount: 5
-  maxHealAmount: 25
+  minHealAmount: 25
+  maxHealAmount: 45
   heartPotions:
   - {fileID: 2622014232997547990}
   - {fileID: 918943282188807328}
