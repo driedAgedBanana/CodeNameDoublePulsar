@@ -98,8 +98,9 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            isBeingKnocked = true;
             if (_isInvulnerable) return;
+            isBeingKnocked = true;
+
             StartCoroutine(StopMovementOnKnockBack(knockbackDuration));
 
             currentHealth -= damage;

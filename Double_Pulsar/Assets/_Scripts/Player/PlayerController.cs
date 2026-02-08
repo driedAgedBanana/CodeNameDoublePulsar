@@ -154,7 +154,6 @@ public class PlayerController : MonoBehaviour
         // HARD RESET vertical momentum
         rb2D.linearVelocity = new Vector2(rb2D.linearVelocity.x, 0f);
 
-
         invincibleDashCollider.enabled = true;
         dashTrail.emitting = true;
 
@@ -169,12 +168,15 @@ public class PlayerController : MonoBehaviour
         Vector2 targetPos = startPos + dashDir * dashDistance;
 
         float elapsed = 0f;
+        bool dashCancelled = false;
 
         while (elapsed < dashDuration)
         {
-            // Early cancel conditions
             if (jetPackEnergy.currentEnergy <= 0f || playerHealth.isBeingKnocked)
+            {
+                dashCancelled = true;
                 break;
+            }
 
             float t = elapsed / dashDuration;
             rb2D.MovePosition(Vector2.Lerp(startPos, targetPos, t));
@@ -185,8 +187,10 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        // Snap to final position (prevents micro drift)
-        rb2D.MovePosition(targetPos);
+        if (!dashCancelled)
+        {
+            rb2D.MovePosition(targetPos);
+        }
 
         // --- CLEAN EXIT ---
         dashTrail.emitting = false;

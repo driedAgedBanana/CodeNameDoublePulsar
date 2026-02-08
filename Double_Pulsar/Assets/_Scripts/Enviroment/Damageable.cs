@@ -6,75 +6,55 @@ public class Damageable : MonoBehaviour
     public int damageAmount;
     public float knockBackForce;
 
+    [SerializeField] private float damageInterval = 1f;
+
     private Coroutine damageCoroutine;
-    [SerializeField] private float _damageInterval = 1f;
-    private bool _isEnteringTriggerZone = false;
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.TryGetComponent<PlayerController>(out PlayerController controller))
-        {
-            // Use contact point as hit source if you want more accuracy
-            Vector2 hitPoint = collision.GetContact(0).point;
-
-            controller.playerHealth.TakeDamage(damageAmount, hitPoint, knockBackForce);
-        }
-
-        if (collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemiesHealth))
-        {
-            enemiesHealth.Die();
-        }
-    }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _isEnteringTriggerZone = true;
-
         if (collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
         {
             PlayerController.Instance.canDash = false;
-            Vector2 hitPoint = collision.ClosestPoint(transform.position);
-            damageCoroutine = StartCoroutine(DealDamageOverTime(playerHealth, hitPoint));
+
+            if (damageCoroutine == null)
+            {
+                damageCoroutine = StartCoroutine(DealDamageOverTime(playerHealth, collision));
+            }
         }
 
-        if (collision.gameObject.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemiesHealth))
+        if (collision.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemiesHealth))
         {
             enemiesHealth.Die();
         }
-
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!GameManager.Instance.isMainMenuActive)
+        if (collision.TryGetComponent<PlayerHealth>(out _))
         {
-            _isEnteringTriggerZone = false;
-            collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth);
             PlayerController.Instance.canDash = true;
+
             if (damageCoroutine != null)
             {
                 StopCoroutine(damageCoroutine);
+                damageCoroutine = null;
             }
         }
     }
 
-    private IEnumerator DealDamageOverTime(PlayerHealth playerHealth, Vector2 hitPoint)
+    private IEnumerator DealDamageOverTime(PlayerHealth playerHealth, Collider2D playerCollider)
     {
-        if (!_isEnteringTriggerZone)
+        while (true)
         {
-            yield break;
-        }
-        else
-        {
-            while (true)
+            if (playerHealth == null)
             {
-                if (playerHealth != null)
-                {
-                    playerHealth.TakeDamage(damageAmount, hitPoint, knockBackForce);
-                }
-                yield return new WaitForSeconds(_damageInterval);
+                yield break;
             }
+
+            Vector2 hitPoint = playerCollider.ClosestPoint(transform.position);
+            playerHealth.TakeDamage(damageAmount, hitPoint, knockBackForce);
+
+            yield return new WaitForSeconds(damageInterval);
         }
     }
 }
