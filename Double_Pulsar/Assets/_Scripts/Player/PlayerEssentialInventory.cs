@@ -7,7 +7,6 @@ using System.Collections.Generic;
 public class PlayerEssentialInventory : MonoBehaviour
 {
     [Header("HEALTH POTION SYSTEM")]
-
     [Header("Health Potion Settings")]
     public int maxHealthPotion = 2;
     [HideInInspector] public int currentHealthPotion;
