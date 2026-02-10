@@ -10,6 +10,22 @@ public class Damageable : MonoBehaviour
 
     private Coroutine damageCoroutine;
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+        {
+            PlayerController.Instance.canDash = false;
+            if (damageCoroutine == null)
+            {
+                damageCoroutine = StartCoroutine(DealDamageOverTime(playerHealth, collision.collider));
+            }
+        }
+
+        if (collision.collider.TryGetComponent<EnemiesHealth>(out EnemiesHealth enemiesHealth))
+        {
+            enemiesHealth.Die();
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
